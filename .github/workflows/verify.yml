@@ -1,0 +1,20 @@
+name: Verify
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Verify
+        run: make verify
