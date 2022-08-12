@@ -5,8 +5,9 @@ using Azure.Core;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Keys.Cryptography;
 using LazyCache;
+using Microsoft.Extensions.Configuration;
 
-namespace CustomerPortal.Encryption;
+namespace Common.Encryption;
 
 public class EncryptionService
 {

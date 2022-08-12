@@ -7,4 +7,5 @@ example-02:
 	dotnet run --project 02-basic-encryption/BasicEncryption
 
 example-03:
+	docker-compose -f 03-shared-encryption/docker-compose.yml --project-directory 03-shared-encryption down -v
 	docker-compose -f 03-shared-encryption/docker-compose.yml --project-directory 03-shared-encryption up -d --build

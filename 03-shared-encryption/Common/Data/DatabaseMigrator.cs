@@ -1,7 +1,8 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-namespace CustomerPortal.Data;
+namespace Common.Data;
 
 public class DatabaseMigrator
 {
@@ -14,17 +15,14 @@ public class DatabaseMigrator
         _logger = logger;
     }
 
-    public async Task Migrate(CancellationToken cancellationToken = default)
-    {
-        await MigrateDatabase(_dbContext, 20, cancellationToken);
-    }
+    public void Migrate() => MigrateDatabase(_dbContext, 20);
 
-    private async Task MigrateDatabase(DbContext dbContext, int retriesRemaining, CancellationToken cancellationToken)
+    private void MigrateDatabase(DbContext dbContext, int retriesRemaining)
     {
         try
         {
-            dbContext.Database.SetCommandTimeout(TimeSpan.FromMinutes(2));
-            await dbContext.Database.MigrateAsync(cancellationToken: cancellationToken);
+            dbContext.Database.SetCommandTimeout(TimeSpan.FromSeconds(5));
+            dbContext.Database.Migrate();
             _logger.LogInformation("Successfully migrated database!");
         }
         catch (SqlException e)
@@ -36,7 +34,7 @@ public class DatabaseMigrator
                 throw;
 
             Thread.Sleep(3000);
-            await MigrateDatabase(dbContext, retriesRemaining - 1, cancellationToken);
+            MigrateDatabase(dbContext, retriesRemaining - 1);
         }
     }
 }

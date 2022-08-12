@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CustomerPortal.Data.Migrations;
+namespace Common.Data.Migrations;
 
 public partial class AddBanksTable : Migration
 {

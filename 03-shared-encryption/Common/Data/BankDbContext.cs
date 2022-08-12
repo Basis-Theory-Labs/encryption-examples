@@ -1,7 +1,7 @@
-using CustomerPortal.Data.Entities;
+using Common.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerPortal.Data;
+namespace Common.Data;
 
 public class BankDbContext : DbContext
 {

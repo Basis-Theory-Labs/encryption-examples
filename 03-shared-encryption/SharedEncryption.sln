@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankProcessor", "BankProcessor\BankProcessor.csproj", "{0ED7C348-60B6-42BE-BDA2-C8B51F7A7D52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{A8747ECD-B07E-47BE-A39B-3AD765FD15DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +21,13 @@ Global
 		{D64BE034-70F7-41EE-B2B5-CDF4C55802D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D64BE034-70F7-41EE-B2B5-CDF4C55802D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D64BE034-70F7-41EE-B2B5-CDF4C55802D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ED7C348-60B6-42BE-BDA2-C8B51F7A7D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ED7C348-60B6-42BE-BDA2-C8B51F7A7D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ED7C348-60B6-42BE-BDA2-C8B51F7A7D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ED7C348-60B6-42BE-BDA2-C8B51F7A7D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8747ECD-B07E-47BE-A39B-3AD765FD15DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8747ECD-B07E-47BE-A39B-3AD765FD15DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8747ECD-B07E-47BE-A39B-3AD765FD15DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8747ECD-B07E-47BE-A39B-3AD765FD15DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

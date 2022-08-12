@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 RUN dotnet restore
-RUN dotnet publish CustomerPortal/CustomerPortal.csproj -c Release -o publish --no-restore
+RUN dotnet publish BankProcessor/BankProcessor.csproj -c Release -o publish --no-restore
 
 ########################################
 
@@ -24,4 +24,4 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 COPY --from=builder /app/publish .
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "CustomerPortal.dll"]
+ENTRYPOINT ["dotnet", "BankProcessor.dll"]

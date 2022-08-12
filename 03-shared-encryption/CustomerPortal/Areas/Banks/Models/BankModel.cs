@@ -1,4 +1,4 @@
-using CustomerPortal.Data.Entities;
+using Common.Data.Entities;
 
 namespace CustomerPortal.Areas.Banks.Models;
 

@@ -1,6 +1,6 @@
+using Common.Data;
+using Common.Encryption;
 using CustomerPortal.Areas.Banks.Models;
-using CustomerPortal.Data;
-using CustomerPortal.Encryption;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 

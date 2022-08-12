@@ -1,6 +1,6 @@
 using Azure.Core;
 
-namespace CustomerPortal.Encryption;
+namespace Common.Encryption;
 
 public class LocalTokenCredential : TokenCredential
 {

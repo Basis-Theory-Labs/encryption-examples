@@ -6,7 +6,8 @@ services:
     ports:
       - 5990:80
     build:
-      context: CustomerPortal
+      context: .
+      dockerfile: ./CustomerPortal/Dockerfile
     depends_on:
       - db
       - bank-keyvault-emulator
@@ -15,6 +16,25 @@ services:
       - ./local-certs/:/https
     environment:
       - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
+      - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
+
+  bank-processor:
+    container_name: bank-processor
+    ports:
+      - 5991:5991
+    build:
+      context: .
+      dockerfile: ./BankProcessor/Dockerfile
+    depends_on:
+      - db
+      - bank-keyvault-emulator
+      - customer-portal
+    entrypoint: sh -c "cp -r /https/. /usr/local/share/ca-certificates/. && update-ca-certificates && exec dotnet BankProcessor.dll"
+    volumes:
+      - ./local-certs/:/https
+    environment:
+      - ASPNETCORE_URLS=http://+:5991
       - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
       - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
 
