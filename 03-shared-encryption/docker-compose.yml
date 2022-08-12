@@ -42,7 +42,7 @@ services:
 
   db:
     build:
-      context: db
+      context: ../db
     environment:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: password123!
