@@ -10,6 +10,10 @@ example-03:
 	docker-compose -f 03-shared-encryption/docker-compose.yml --project-directory 03-shared-encryption down -v
 	docker-compose -f 03-shared-encryption/docker-compose.yml --project-directory 03-shared-encryption up -d --build
 
+example-04:
+	docker-compose -f 04-key-rotation/docker-compose.yml --project-directory 04-key-rotation down -v
+	docker-compose -f 04-key-rotation/docker-compose.yml --project-directory 04-key-rotation up -d --build
+
 example-05:
 	docker-compose -f 05-openkms-encryption/docker-compose.yml --project-directory 05-openkms-encryption down -v
 	docker-compose -f 05-openkms-encryption/docker-compose.yml --project-directory 05-openkms-encryption up -d --build
