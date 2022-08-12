@@ -9,3 +9,7 @@ example-02:
 example-03:
 	docker-compose -f 03-shared-encryption/docker-compose.yml --project-directory 03-shared-encryption down -v
 	docker-compose -f 03-shared-encryption/docker-compose.yml --project-directory 03-shared-encryption up -d --build
+
+example-05:
+	docker-compose -f 05-openkms-encryption/docker-compose.yml --project-directory 05-openkms-encryption down -v
+	docker-compose -f 05-openkms-encryption/docker-compose.yml --project-directory 05-openkms-encryption up -d --build

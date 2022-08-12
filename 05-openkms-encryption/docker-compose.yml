@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  customer-portal:
+    container_name: customer-portal
+    ports:
+      - 5990:80
+    build:
+      context: .
+      dockerfile: ./CustomerPortal/Dockerfile
+    depends_on:
+      - db
+      - bank-keyvault-emulator
+    entrypoint: sh -c "cp -r /https/. /usr/local/share/ca-certificates/. && update-ca-certificates && exec dotnet CustomerPortal.dll"
+    volumes:
+      - ./local-certs/:/https
+    environment:
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
+      - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
+
+  bank-processor:
+    container_name: bank-processor
+    ports:
+      - 5991:5991
+    build:
+      context: .
+      dockerfile: ./BankProcessor/Dockerfile
+    depends_on:
+      - db
+      - bank-keyvault-emulator
+      - customer-portal
+    entrypoint: sh -c "cp -r /https/. /usr/local/share/ca-certificates/. && update-ca-certificates && exec dotnet BankProcessor.dll"
+    volumes:
+      - ./local-certs/:/https
+    environment:
+      - ASPNETCORE_URLS=http://+:5991
+      - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
+      - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
+
+  db:
+    build:
+      context: db
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: password123!
+      MSSQL_DB: Bank
+    ports:
+      - 5544:1433
+
+  bank-keyvault-emulator:
+    image: basistheory/azure-keyvault-emulator:latest
+    ports:
+      - 5590:5590
+    volumes:
+      - ./local-certs:/https
+    environment:
+      - ASPNETCORE_URLS=https://+:5590
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/bank-keyvault-emulator.pfx
+      - KeyVault__Name=bank-keyvault-emulator
