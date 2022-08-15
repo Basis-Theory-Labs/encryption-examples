@@ -1,7 +1,10 @@
+using System.Text;
 using Common.Data;
 using Common.Data.Entities;
 using Common.Encryption;
 using CustomerPortal.Areas.Banks.Models;
+using Encryption;
+using Encryption.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +14,12 @@ namespace CustomerPortal.Areas.Banks.Pages;
 public class EditModel : PageModel
 {
     private readonly BankDbContext _context;
-    private readonly EncryptionService _encryptionService;
+    private readonly IEncryptionService _encryptionService;
 
     [BindProperty]
     public EditBankModel Bank { get; set; } = default!;
 
-    public EditModel(BankDbContext context, EncryptionService encryptionService)
+    public EditModel(BankDbContext context, IEncryptionService encryptionService)
     {
         _context = context;
         _encryptionService = encryptionService;
@@ -32,8 +35,10 @@ public class EditModel : PageModel
         Bank = new EditBankModel
         {
             Id = bank.Id,
-            RoutingNumber = await _encryptionService.Decrypt(bank.RoutingNumber),
-            AccountNumber = await _encryptionService.Decrypt(bank.AccountNumber)
+            // RoutingNumber = await _encryptionService.DecryptAsync(bank.RoutingNumber),
+            // AccountNumber = await _encryptionService.Decrypt(bank.AccountNumber),
+            RoutingNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(new JsonWebEncryption())),
+            AccountNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(new JsonWebEncryption())),
         };
         return Page();
     }
@@ -45,8 +50,8 @@ public class EditModel : PageModel
         var bank =  await _context.Banks.FirstOrDefaultAsync(m => m.Id == Bank.Id);
         if (bank == null) return NotFound();
 
-        bank.RoutingNumber = await _encryptionService.Encrypt(Bank.RoutingNumber);
-        bank.AccountNumber = await _encryptionService.Encrypt(Bank.AccountNumber);
+        // bank.RoutingNumber = await _encryptionService.Encrypt(Bank.RoutingNumber);
+        // bank.AccountNumber = await _encryptionService.Encrypt(Bank.AccountNumber);
         bank.Status = ProcessStatus.PENDING;
 
         await _context.SaveChangesAsync();

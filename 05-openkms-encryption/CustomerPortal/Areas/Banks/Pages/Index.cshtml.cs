@@ -1,6 +1,7 @@
 using Common.Data;
 using Common.Encryption;
 using CustomerPortal.Areas.Banks.Models;
+using Encryption;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +10,10 @@ namespace CustomerPortal.Areas.Banks.Pages;
 public class IndexModel : PageModel
 {
     private readonly BankDbContext _context;
-    private readonly EncryptionService _encryptionService;
+    private readonly IEncryptionService _encryptionService;
     public IList<BankModel> Banks { get;set; } = default!;
 
-    public IndexModel(BankDbContext context, EncryptionService encryptionService)
+    public IndexModel(BankDbContext context, IEncryptionService encryptionService)
     {
         _context = context;
         _encryptionService = encryptionService;
@@ -25,8 +26,8 @@ public class IndexModel : PageModel
         Banks = await Task.WhenAll(banks.Select(async x => new BankModel
         {
             Id = x.Id,
-            RoutingNumber = await _encryptionService.Decrypt(x.RoutingNumber),
-            AccountNumber = await _encryptionService.Decrypt(x.AccountNumber),
+            // RoutingNumber = await _encryptionService.Decrypt(x.RoutingNumber),
+            // AccountNumber = await _encryptionService.Decrypt(x.AccountNumber),
             Status = x.Status
         }));
     }

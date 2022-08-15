@@ -14,7 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Encryption\Encryption.csproj" />
-      <ProjectReference Include="..\OpenKms\OpenKms.csproj" />
+<!--      <ProjectReference Include="..\OpenKms\OpenKms.csproj" />-->
     </ItemGroup>
 
 </Project>

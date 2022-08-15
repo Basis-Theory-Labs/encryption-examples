@@ -1,7 +1,6 @@
 using Encryption.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using OpenKms.Keys;
 
 namespace Encryption;
 
@@ -57,17 +56,22 @@ public class EncryptionService : IEncryptionService
 
         var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(encryptionScheme.Name, cancellationToken);
 
+        WrapKeyResult? wrapKeyResult = null;
         if (keyEncryptionHandler != null)
-            await keyEncryptionHandler.EncryptAsync(encryptContentResult, cancellationToken);
+            wrapKeyResult = await keyEncryptionHandler.WrapKeyAsync(encryptContentResult.Key!, "foobar", cancellationToken);
 
         return new JsonWebEncryption
         {
             UnprotectedHeader = new JoseHeader
             {
-                KeyId = encryptContentResult.KeyId,
+                KeyId = wrapKeyResult?.Key?.KeyId ?? encryptContentResult.Key?.KeyId,
                 EncryptionAlgorithm = encryptContentResult.Algorithm,
+                Algorithm = wrapKeyResult?.Algorithm,
+
             },
-            Ciphertext = Base64UrlEncoder.Encode(encryptContentResult.Ciphertext)
+            EncryptedKey = wrapKeyResult?.Ciphertext != null ? Base64UrlEncoder.Encode(wrapKeyResult.Ciphertext) : null,
+            Ciphertext = Base64UrlEncoder.Encode(encryptContentResult.Ciphertext),
+            InitializationVector = encryptContentResult.Iv != null ? Base64UrlEncoder.Encode(encryptContentResult.Iv) : null,
         };
     }
 

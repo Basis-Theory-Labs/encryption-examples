@@ -1,15 +1,15 @@
 using Common.Data;
 using Common.Data.Entities;
-using Common.Encryption;
+using Encryption;
 
 namespace BankProcessor.Jobs;
 
 public class ProcessBanks
 {
     private readonly BankDbContext _dbContext;
-    private readonly EncryptionService _encryptionService;
+    private readonly IEncryptionService _encryptionService;
 
-    public ProcessBanks(BankDbContext dbContext, EncryptionService encryptionService)
+    public ProcessBanks(BankDbContext dbContext, IEncryptionService encryptionService)
     {
         _dbContext = dbContext;
         _encryptionService = encryptionService;

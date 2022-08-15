@@ -15,4 +15,8 @@
       <Folder Include="Keys\Models" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Encryption\Encryption.csproj" />
+    </ItemGroup>
+
 </Project>

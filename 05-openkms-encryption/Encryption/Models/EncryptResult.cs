@@ -6,14 +6,14 @@ public class EncryptResult
 {
     public EncryptResult(byte[] ciphertext,
         EncryptionAlgorithm algorithm,
-        string? keyId = null,
+        JsonWebKey? key = null,
         byte[]? iv = null,
         byte[]? authenticationTag = null,
         byte[]? additionalAuthenticatedData = null)
     {
         Ciphertext = ciphertext;
         Algorithm = algorithm;
-        KeyId = keyId;
+        Key = key;
         Iv = iv;
         AuthenticationTag = authenticationTag;
         AdditionalAuthenticatedData = additionalAuthenticatedData;
@@ -30,9 +30,9 @@ public class EncryptResult
     public EncryptionAlgorithm Algorithm { get; internal set; }
 
     /// <summary>
-    /// Gets the key identifier of the <see cref="Ciphertext"/> used to encrypt. This must be stored alongside the <see cref="JsonWebKey"/> as the same key must be used to decrypt it.
+    /// Gets the JsonWebKey used for encryption.
     /// </summary>
-    public string? KeyId { get; internal set; }
+    public JsonWebKey? Key { get; internal set; }
 
     /// <summary>
     /// Gets the initialization vector for encryption.

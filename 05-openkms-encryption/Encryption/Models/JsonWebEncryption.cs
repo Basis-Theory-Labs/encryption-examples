@@ -1,4 +1,7 @@
+using System.Text;
 using System.Text.Json.Serialization;
+using System.Text.Unicode;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Encryption.Models;
 
@@ -36,4 +39,19 @@ public class JsonWebEncryption
 
     [JsonPropertyName("aad")]
     public string? AdditionalAuthenticatedData { get; set; }
+
+    public string ToCompactSerializationFormat()
+    {
+        var protectedHeader = ProtectedHeader != null ? Base64UrlEncoder.Encode(ProtectedHeader) : "";
+
+        var encryptedKey = EncryptedKey != null ? Base64UrlEncoder.Encode(EncryptedKey) : "";
+
+        var iv = InitializationVector != null ? Base64UrlEncoder.Encode(InitializationVector) : "";
+
+        var ciphertext = Ciphertext != null ? Base64UrlEncoder.Encode(Ciphertext) : "";
+
+        var authenticationTag = AuthenticationTag != null ? Base64UrlEncoder.Encode(AuthenticationTag) : "";
+
+        return protectedHeader + "." + encryptedKey + "." + iv + "." + ciphertext + "." + authenticationTag;
+    }
 }

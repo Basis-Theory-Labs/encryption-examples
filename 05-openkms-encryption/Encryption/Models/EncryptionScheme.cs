@@ -1,5 +1,3 @@
-using OpenKms.Keys;
-
 namespace Encryption.Models;
 
 public class EncryptionScheme

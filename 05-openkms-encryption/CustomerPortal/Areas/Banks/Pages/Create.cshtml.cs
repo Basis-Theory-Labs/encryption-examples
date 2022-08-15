@@ -2,6 +2,7 @@ using Common.Data;
 using Common.Data.Entities;
 using Common.Encryption;
 using CustomerPortal.Areas.Banks.Models;
+using Encryption;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -10,12 +11,12 @@ namespace CustomerPortal.Areas.Banks.Pages;
 public class CreateModel : PageModel
 {
     private readonly BankDbContext _context;
-    private readonly EncryptionService _encryptionService;
+    private readonly IEncryptionService _encryptionService;
 
     [BindProperty]
     public CreateBankModel Bank { get; set; } = default!;
 
-    public CreateModel(BankDbContext context, EncryptionService encryptionService)
+    public CreateModel(BankDbContext context, IEncryptionService encryptionService)
     {
         _context = context;
         _encryptionService = encryptionService;
@@ -31,8 +32,8 @@ public class CreateModel : PageModel
         {
             Id = Guid.NewGuid(),
             Status = ProcessStatus.PENDING,
-            RoutingNumber = await _encryptionService.Encrypt(Bank.RoutingNumber, cancellationToken),
-            AccountNumber = await _encryptionService.Encrypt(Bank.AccountNumber, cancellationToken),
+            RoutingNumber = (await _encryptionService.EncryptAsync(Bank.RoutingNumber, "default", cancellationToken)).ToCompactSerializationFormat(),
+            AccountNumber = (await _encryptionService.EncryptAsync(Bank.AccountNumber, "default", cancellationToken)).ToCompactSerializationFormat(),
         };
 
         _context.Banks.Add(bank);

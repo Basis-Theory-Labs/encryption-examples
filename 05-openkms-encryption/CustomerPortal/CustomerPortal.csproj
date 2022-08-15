@@ -29,7 +29,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Common\Common.csproj" />
         <ProjectReference Include="..\OpenKms.AzureKeyVault\OpenKms.AzureKeyVault.csproj" />
-        <ProjectReference Include="..\OpenKms\OpenKms.csproj" />
+<!--        <ProjectReference Include="..\OpenKms\OpenKms.csproj" />-->
     </ItemGroup>
 
     <ItemGroup>
