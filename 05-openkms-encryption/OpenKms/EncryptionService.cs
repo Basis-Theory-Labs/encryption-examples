@@ -37,25 +37,32 @@ public class EncryptionService : IEncryptionService
     {
         var encryptionScheme = scheme != null
             ? await Schemes.GetSchemeAsync(scheme)
-            : await Schemes.GetDefaultEncryptSchemeAsync();
+            : await Schemes.GetDefaultEncryptionSchemeAsync();
 
         if (encryptionScheme == null)
         {
             throw new ArgumentNullException();
         }
 
-        var encryptionHandler = await Handlers.GetHandlerAsync(encryptionScheme.Name, cancellationToken);
+        var contentEncryptionHandler = await Handlers.GetContentEncryptionHandlerAsync(encryptionScheme.Name, cancellationToken);
 
-        var encryptResult = await encryptionHandler.EncryptAsync(ciphertext, cancellationToken);
+        var encryptContentResult = await contentEncryptionHandler.EncryptAsync(ciphertext, cancellationToken);
+
+        var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(encryptionScheme.Name, cancellationToken);
+
+        if (keyEncryptionHandler != null)
+        {
+
+        }
 
         return new JsonWebEncryption
         {
             UnprotectedHeader = new JoseHeader
             {
-                KeyId = encryptResult.KeyId,
-                EncryptionAlgorithm = encryptResult.Algorithm,
+                KeyId = encryptContentResult.KeyId,
+                EncryptionAlgorithm = encryptContentResult.Algorithm,
             },
-            Ciphertext = Base64UrlEncoder.Encode(encryptResult.Ciphertext)
+            Ciphertext = Base64UrlEncoder.Encode(encryptContentResult.Ciphertext)
         };
     }
 

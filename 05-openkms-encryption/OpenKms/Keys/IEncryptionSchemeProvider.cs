@@ -4,7 +4,7 @@ public interface IEncryptionSchemeProvider
 {
     Task<IEnumerable<EncryptionScheme>> GetSchemesAsync();
     Task<EncryptionScheme?> GetSchemeAsync(string schemeName);
-    Task<EncryptionScheme> GetDefaultEncryptSchemeAsync();
+    Task<EncryptionScheme> GetDefaultEncryptionSchemeAsync();
 
     void AddScheme(EncryptionScheme scheme);
     bool TryAddScheme(EncryptionScheme scheme);

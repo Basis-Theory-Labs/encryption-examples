@@ -2,5 +2,6 @@ namespace OpenKms.Keys;
 
 public interface IEncryptionHandlerProvider
 {
-    Task<IEncryptionHandler> GetHandlerAsync(string kmsScheme, CancellationToken cancellationToken = default);
+    Task<IEncryptionHandler> GetContentEncryptionHandlerAsync(string scheme, CancellationToken cancellationToken = default);
+    Task<IEncryptionHandler?> GetKeyEncryptionHandlerAsync(string scheme, CancellationToken cancellationToken = default);
 }

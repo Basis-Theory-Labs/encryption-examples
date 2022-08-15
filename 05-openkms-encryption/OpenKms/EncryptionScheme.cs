@@ -4,25 +4,31 @@ namespace OpenKms;
 
 public class EncryptionScheme
 {
-    public EncryptionScheme(string name, string? displayName, Type handlerType)
+    public EncryptionScheme(string name, string? displayName, Type contentEncryptionHandlerType, Type? keyEncryptionHandlerType)
     {
         if (name == null)
         {
             throw new ArgumentNullException(nameof(name));
         }
 
-        if (handlerType == null)
+        if (contentEncryptionHandlerType == null)
         {
-            throw new ArgumentNullException(nameof(handlerType));
+            throw new ArgumentNullException(nameof(contentEncryptionHandlerType));
         }
 
-        if (!typeof(IEncryptionHandler).IsAssignableFrom(handlerType))
+        if (!typeof(IEncryptionHandler).IsAssignableFrom(contentEncryptionHandlerType))
         {
-            throw new ArgumentException("handlerType must implement IAuthenticationHandler.");
+            throw new ArgumentException("contentEncryptionHandlerType must implement IEncryptionHandler.");
+        }
+
+        if (keyEncryptionHandlerType != null && !typeof(IEncryptionHandler).IsAssignableFrom(keyEncryptionHandlerType))
+        {
+            throw new ArgumentException("keyEncryptionHandlerType must implement IEncryptionHandler.");
         }
 
         Name = name;
-        HandlerType = handlerType;
+        ContentEncryptionHandlerType = contentEncryptionHandlerType;
+        KeyEncryptionHandlerType = keyEncryptionHandlerType;
         DisplayName = displayName;
     }
 
@@ -30,5 +36,7 @@ public class EncryptionScheme
 
     public string? DisplayName { get; }
 
-    public Type HandlerType { get; }
+    public Type ContentEncryptionHandlerType { get; }
+
+    public Type? KeyEncryptionHandlerType { get; }
 }
