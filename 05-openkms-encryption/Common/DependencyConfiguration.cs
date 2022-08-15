@@ -30,7 +30,7 @@ public static class DependencyConfiguration
             b.UseCredential(tokenCredential);
         });
 
-        services.Configure<KeyVaultKeyManagementServiceOptions>(o =>
+        services.Configure<AzureKeyVaultEncryptionOptions>(o =>
         {
             o.DefaultGenerateKeyRequest = new GenerateKeyRequest()
             {

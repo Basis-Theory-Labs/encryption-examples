@@ -6,9 +6,24 @@ namespace OpenKms.Keys.Cryptography.Models;
 
 public class JoseHeader
 {
+    /// <summary>
+    /// the Header Parameter identifies the cryptographic algorithm used
+    /// to encrypt or determine the value of the CEK.  The encrypted content
+    /// is not usable if the "alg" value does not represent a supported
+    /// algorithm, or if the recipient does not have a key that can be used
+    /// with that algorithm.
+    /// </summary>
     [JsonPropertyName("alg")]
-    public EncryptionAlgorithm Algorithm { get; set; }
+    public EncryptionAlgorithm? Algorithm { get; set; }
 
+    /// <summary>
+    /// The "enc" (encryption algorithm) Header Parameter identifies the
+    /// content encryption algorithm used to perform authenticated encryption
+    /// on the plaintext to produce the ciphertext and the Authentication
+    /// Tag.  This algorithm MUST be an AEAD algorithm with a specified key
+    /// length.  The encrypted content is not usable if the "enc" value does
+    /// not represent a supported algorithm.
+    /// </summary>
     [JsonPropertyName("enc")]
     public EncryptionAlgorithm EncryptionAlgorithm { get; set; }
 

@@ -4,12 +4,21 @@ namespace OpenKms.Keys.Cryptography.Models;
 
 public class JsonWebEncryption
 {
+    /// <summary>
+    /// with the value BASE64URL(UTF8(JWE Protected Header))
+    /// </summary>
     [JsonPropertyName("protected")]
     public string? ProtectedHeader { get; set; }
 
+    /// <summary>
+    /// with the value JWE Shared Unprotected Header
+    /// </summary>
     [JsonPropertyName("unprotected")]
     public JoseHeader? UnprotectedHeader { get; set; }
 
+    /// <summary>
+    /// with the value JWE Per-Recipient Unprotected Header
+    /// </summary>
     [JsonPropertyName("header")]
     public JoseHeader? Header { get; set; }
 
