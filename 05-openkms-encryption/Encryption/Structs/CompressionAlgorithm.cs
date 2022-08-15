@@ -1,7 +1,6 @@
-using OpenKms.Keys.Cryptography.Models;
-using OpenKms.Keys.Structs;
+using Encryption.Models;
 
-namespace OpenKms.Keys.Cryptography.Structs;
+namespace Encryption.Structs;
 
 /// <summary>
 /// <see cref="JsonWebEncryption"/> compression algorithm.

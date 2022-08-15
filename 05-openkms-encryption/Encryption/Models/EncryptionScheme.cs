@@ -1,6 +1,6 @@
 using OpenKms.Keys;
 
-namespace OpenKms;
+namespace Encryption.Models;
 
 public class EncryptionScheme
 {

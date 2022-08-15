@@ -1,4 +1,4 @@
-namespace OpenKms;
+namespace Encryption.Models;
 
 public class EncryptionOptions
 {

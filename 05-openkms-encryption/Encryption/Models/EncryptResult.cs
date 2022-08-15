@@ -1,7 +1,6 @@
-using OpenKms.Keys.Cryptography.Structs;
-using OpenKms.Keys.Models;
+using Encryption.Structs;
 
-namespace OpenKms.Keys.Cryptography.Operations.Models;
+namespace Encryption.Models;
 
 public class EncryptResult
 {
@@ -31,7 +30,7 @@ public class EncryptResult
     public EncryptionAlgorithm Algorithm { get; internal set; }
 
     /// <summary>
-    /// Gets the key identifier of the <see cref="JsonWebKey"/> used to encrypt. This must be stored alongside the <see cref="Ciphertext"/> as the same key must be used to decrypt it.
+    /// Gets the key identifier of the <see cref="Ciphertext"/> used to encrypt. This must be stored alongside the <see cref="JsonWebKey"/> as the same key must be used to decrypt it.
     /// </summary>
     public string? KeyId { get; internal set; }
 

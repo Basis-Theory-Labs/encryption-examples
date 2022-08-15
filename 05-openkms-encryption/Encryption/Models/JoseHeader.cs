@@ -1,8 +1,7 @@
 using System.Text.Json.Serialization;
-using OpenKms.Keys.Cryptography.Structs;
-using OpenKms.Keys.Models;
+using Encryption.Structs;
 
-namespace OpenKms.Keys.Cryptography.Models;
+namespace Encryption.Models;
 
 public class JoseHeader
 {

@@ -1,8 +1,7 @@
 using System.Text.Json.Serialization;
-using OpenKms.Keys.Cryptography.Structs;
-using OpenKms.Keys.Structs;
+using Encryption.Structs;
 
-namespace OpenKms.Keys.Models;
+namespace Encryption.Models;
 
 public class JsonWebKey
 {

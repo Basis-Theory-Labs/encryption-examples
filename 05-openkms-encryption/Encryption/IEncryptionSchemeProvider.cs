@@ -1,3 +1,5 @@
+using Encryption.Models;
+
 namespace OpenKms.Keys;
 
 public interface IEncryptionSchemeProvider

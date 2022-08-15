@@ -1,4 +1,4 @@
-namespace OpenKms.Keys.Structs;
+namespace Encryption.Structs;
 
 public enum KeyState
 {

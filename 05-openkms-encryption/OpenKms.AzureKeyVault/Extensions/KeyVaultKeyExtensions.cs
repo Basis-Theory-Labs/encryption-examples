@@ -1,9 +1,9 @@
 using System.Collections.Immutable;
 using Azure.Security.KeyVault.Keys;
-using OpenKms.Keys.Structs;
-using JsonWebKey = OpenKms.Keys.Models.JsonWebKey;
-using KeyType = OpenKms.Keys.Structs.KeyType;
-using KeyOperation = OpenKms.Keys.Structs.KeyOperation;
+using Encryption.Structs;
+using JsonWebKey = Encryption.Models.JsonWebKey;
+using KeyType = Encryption.Structs.KeyType;
+using KeyOperation = Encryption.Structs.KeyOperation;
 
 namespace OpenKms.AzureKeyVault.Extensions;
 

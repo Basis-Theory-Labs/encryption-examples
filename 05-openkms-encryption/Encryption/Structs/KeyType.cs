@@ -1,6 +1,6 @@
-using OpenKms.Keys.Models;
+using Encryption.Models;
 
-namespace OpenKms.Keys.Structs;
+namespace Encryption.Structs;
 
 /// <summary>
 /// <see cref="JsonWebKey"/> key types.

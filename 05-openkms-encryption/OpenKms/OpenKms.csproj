@@ -11,4 +11,8 @@
       <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.8.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Keys\Models" />
+    </ItemGroup>
+
 </Project>

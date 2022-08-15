@@ -1,4 +1,6 @@
-namespace OpenKms.Keys;
+using OpenKms.Keys;
+
+namespace Encryption;
 
 public interface IEncryptionHandlerProvider
 {

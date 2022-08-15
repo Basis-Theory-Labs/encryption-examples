@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace OpenKms.Keys.Cryptography.Models;
+namespace Encryption.Models;
 
 public class JsonWebEncryption
 {

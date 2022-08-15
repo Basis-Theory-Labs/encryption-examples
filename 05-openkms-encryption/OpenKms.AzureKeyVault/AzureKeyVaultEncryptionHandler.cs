@@ -1,10 +1,10 @@
 using Azure;
 using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Keys.Cryptography;
+using Encryption;
 using Microsoft.Extensions.Options;
-using OpenKms.Keys;
 using OpenKms.Keys.Exceptions;
-using EncryptResult = OpenKms.Keys.Cryptography.Operations.Models.EncryptResult;
+using EncryptResult = Encryption.Models.EncryptResult;
 
 namespace OpenKms.AzureKeyVault;
 
@@ -45,7 +45,7 @@ public class AzureKeyVaultEncryptionHandler : IEncryptionHandler
         }
     }
 
-    public async Task<byte[]> DecryptAsync(string keyId, byte[] ciphertext, Keys.Cryptography.Structs.EncryptionAlgorithm algorithm, CancellationToken cancellationToken = default)
+    public async Task<byte[]> DecryptAsync(string keyId, byte[] ciphertext, Encryption.Structs.EncryptionAlgorithm algorithm, CancellationToken cancellationToken = default)
     {
         var (keyName, keyVersion) = ParseKeyId(keyId);
         var cryptoClient = _keyClient.GetCryptographyClient(keyName, keyVersion);

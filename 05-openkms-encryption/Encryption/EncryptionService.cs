@@ -1,10 +1,18 @@
+using Encryption.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OpenKms.Keys;
-using OpenKms.Keys.Cryptography.Models;
 
-namespace OpenKms;
+namespace Encryption;
 
+public interface IEncryptionService
+{
+    Task<JsonWebEncryption> EncryptAsync(byte[] ciphertext, string? scheme, CancellationToken cancellationToken = default);
+    Task<JsonWebEncryption> EncryptAsync(string ciphertext, string? scheme, CancellationToken cancellationToken = default);
+
+    Task<byte[]> DecryptAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default);
+    Task<string> DecryptStringAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default);
+}
 
 public class EncryptionService : IEncryptionService
 {
@@ -32,7 +40,6 @@ public class EncryptionService : IEncryptionService
     /// </summary>
     public EncryptionOptions Options { get; }
 
-
     public async Task<JsonWebEncryption> EncryptAsync(byte[] ciphertext, string? scheme, CancellationToken cancellationToken = default)
     {
         var encryptionScheme = scheme != null
@@ -40,20 +47,18 @@ public class EncryptionService : IEncryptionService
             : await Schemes.GetDefaultEncryptionSchemeAsync();
 
         if (encryptionScheme == null)
-        {
-            throw new ArgumentNullException();
-        }
+            throw new ArgumentNullException(nameof(encryptionScheme));
 
         var contentEncryptionHandler = await Handlers.GetContentEncryptionHandlerAsync(encryptionScheme.Name, cancellationToken);
+        if (contentEncryptionHandler == null)
+            throw new ArgumentNullException(nameof(contentEncryptionHandler));
 
         var encryptContentResult = await contentEncryptionHandler.EncryptAsync(ciphertext, cancellationToken);
 
         var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(encryptionScheme.Name, cancellationToken);
 
         if (keyEncryptionHandler != null)
-        {
-
-        }
+            await keyEncryptionHandler.EncryptAsync(encryptContentResult, cancellationToken);
 
         return new JsonWebEncryption
         {
