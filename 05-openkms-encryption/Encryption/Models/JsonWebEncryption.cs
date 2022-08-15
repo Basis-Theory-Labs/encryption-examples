@@ -1,6 +1,4 @@
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Text.Unicode;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Encryption.Models;
