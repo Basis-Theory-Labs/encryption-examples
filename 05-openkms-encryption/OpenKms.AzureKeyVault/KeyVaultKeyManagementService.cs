@@ -3,17 +3,17 @@ using Azure.Security.KeyVault.Keys;
 using Azure.Security.KeyVault.Keys.Cryptography;
 using Microsoft.Extensions.Options;
 using OpenKms.AzureKeyVault.Extensions;
-using OpenKms.Keys.Cryptography.Models;
+using OpenKms.Keys.Cryptography.Operations.Models;
 using OpenKms.Keys.Exceptions;
 using OpenKms.Keys.Management;
 using OpenKms.Keys.Management.Models;
 using OpenKms.Keys.Structs;
-using DecryptResult = OpenKms.Keys.Cryptography.Models.DecryptResult;
-using EncryptResult = OpenKms.Keys.Cryptography.Models.EncryptResult;
+using DecryptResult = OpenKms.Keys.Cryptography.Operations.Models.DecryptResult;
+using EncryptResult = OpenKms.Keys.Cryptography.Operations.Models.EncryptResult;
 using JsonWebKey = OpenKms.Keys.Models.JsonWebKey;
 using KeyOperation = OpenKms.Keys.Structs.KeyOperation;
 using KeyType = OpenKms.Keys.Structs.KeyType;
-using SignResult = OpenKms.Keys.Cryptography.Models.SignResult;
+using SignResult = OpenKms.Keys.Cryptography.Operations.Models.SignResult;
 
 namespace OpenKms.AzureKeyVault;
 

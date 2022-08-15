@@ -1,7 +1,6 @@
 namespace OpenKms.Keys.Cryptography.Models;
 
-// TODO
-public class DeriveKeyRequest
+public class EncryptedKey
 {
-
+    
 }

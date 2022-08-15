@@ -1,6 +1,6 @@
 using OpenKms.Keys.Cryptography.Structs;
 
-namespace OpenKms.Keys.Cryptography.Models;
+namespace OpenKms.Keys.Cryptography.Operations.Models;
 
 public class DecryptRequest
 {

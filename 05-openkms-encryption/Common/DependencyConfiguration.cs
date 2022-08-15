@@ -1,5 +1,4 @@
 using Azure.Core;
-using Azure.Security.KeyVault.Keys.Cryptography;
 using Common.Data;
 using Common.Encryption;
 using Microsoft.EntityFrameworkCore;

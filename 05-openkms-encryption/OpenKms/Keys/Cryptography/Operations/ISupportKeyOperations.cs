@@ -1,6 +1,6 @@
 using OpenKms.Keys.Structs;
 
-namespace OpenKms.Keys.Cryptography;
+namespace OpenKms.Keys.Cryptography.Operations;
 
 public interface ISupportKeyOperations
 {

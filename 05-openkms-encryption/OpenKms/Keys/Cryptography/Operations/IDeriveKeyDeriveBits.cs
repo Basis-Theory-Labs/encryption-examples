@@ -1,7 +1,7 @@
-using OpenKms.Keys.Cryptography.Models;
+using OpenKms.Keys.Cryptography.Operations.Models;
 using OpenKms.Keys.Models;
 
-namespace OpenKms.Keys.Cryptography;
+namespace OpenKms.Keys.Cryptography.Operations;
 
 public interface IDeriveKeyDeriveBits : ISupportKeyOperations
 {

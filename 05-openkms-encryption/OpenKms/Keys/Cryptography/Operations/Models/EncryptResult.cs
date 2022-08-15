@@ -1,7 +1,7 @@
 using OpenKms.Keys.Cryptography.Structs;
 using OpenKms.Keys.Models;
 
-namespace OpenKms.Keys.Cryptography.Models;
+namespace OpenKms.Keys.Cryptography.Operations.Models;
 
 public class EncryptResult
 {

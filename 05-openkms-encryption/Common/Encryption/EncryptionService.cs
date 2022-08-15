@@ -2,7 +2,7 @@ using System.Text;
 using Azure;
 using LazyCache;
 using Microsoft.Extensions.Configuration;
-using OpenKms.Keys.Cryptography.Models;
+using OpenKms.Keys.Cryptography.Operations.Models;
 using OpenKms.Keys.Management;
 using JsonWebKey = OpenKms.Keys.Models.JsonWebKey;
 
