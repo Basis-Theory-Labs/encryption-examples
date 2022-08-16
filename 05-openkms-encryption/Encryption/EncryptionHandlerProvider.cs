@@ -22,7 +22,10 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
         var encryptionScheme = await _schemeProvider.GetSchemeAsync(scheme);
 
         var handler = _serviceProvider.GetService(encryptionScheme!.ContentEncryptionHandlerType) as IEncryptionHandler;
-        return handler!;
+
+        await handler!.InitializeAsync(encryptionScheme);
+
+        return handler;
     }
 
     public async Task<IEncryptionHandler?> GetKeyEncryptionHandlerAsync(string scheme, CancellationToken cancellationToken = default)
@@ -32,6 +35,10 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
         if (encryptionScheme!.KeyEncryptionHandlerType == null) return null;
 
         var handler = _serviceProvider.GetService(encryptionScheme!.KeyEncryptionHandlerType) as IEncryptionHandler;
-        return handler!;
+
+        if (handler != null)
+            await handler.InitializeAsync(encryptionScheme);
+
+        return handler;
     }
 }

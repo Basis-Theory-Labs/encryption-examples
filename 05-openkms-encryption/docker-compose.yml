@@ -16,7 +16,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
-      - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
+      - Encryption__ProviderUri=https://bank-keyvault-emulator:5792/
 
   bank-processor:
     ports:

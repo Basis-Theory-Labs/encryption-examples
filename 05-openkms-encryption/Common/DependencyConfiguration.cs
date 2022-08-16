@@ -27,7 +27,10 @@ public static class DependencyConfiguration
             b.UseCredential(tokenCredential);
         });
 
-        services.AddEncryption()
+        services.AddEncryption(o =>
+            {
+                o.DefaultScheme = "default";
+            })
             .AddScheme<AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler>("default", "DEFAULT", options =>
             {
                 options.DefaultKeyName = configuration.GetValue<string>("Encryption:KeyName");

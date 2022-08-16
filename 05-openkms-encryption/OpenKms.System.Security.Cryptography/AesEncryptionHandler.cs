@@ -8,18 +8,15 @@ namespace OpenKms.System.Security.Cryptography;
 
 public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEncryptionHandler
 {
-    private readonly IOptionsMonitor<AesEncryptionOptions> _options;
-
-    public AesEncryptionHandler(IOptionsMonitor<AesEncryptionOptions> options)
+    public AesEncryptionHandler(IOptionsMonitor<AesEncryptionOptions> options) : base(options)
     {
-        _options = options;
     }
 
     public override Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default)
     {
         using var aes = Aes.Create();
-        if(_options.CurrentValue.DefaultKeySize.HasValue)
-            aes.KeySize = _options.CurrentValue.DefaultKeySize.Value;
+        if(Options.DefaultKeySize.HasValue)
+            aes.KeySize = Options.DefaultKeySize.Value;
 
         aes.GenerateKey();
         aes.GenerateIV();
@@ -28,7 +25,7 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
 
         var ciphertext = aes.EncryptCbc(plaintext, iv);
 
-        return Task.FromResult(new EncryptResult(ciphertext, _options.CurrentValue.DefaultEncryptionAlgorithm,
+        return Task.FromResult(new EncryptResult(ciphertext, Options.DefaultEncryptionAlgorithm,
             new JsonWebKey
             {
                 KeyType = KeyType.OCT,

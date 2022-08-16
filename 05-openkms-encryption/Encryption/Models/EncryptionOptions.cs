@@ -81,5 +81,5 @@ public class EncryptionOptions
         /// <summary>
         /// Used as the default scheme.
         /// </summary>
-        public string? DefaultEncryptionScheme { get; set; }
+        public string? DefaultEncryptScheme { get; set; }
 }

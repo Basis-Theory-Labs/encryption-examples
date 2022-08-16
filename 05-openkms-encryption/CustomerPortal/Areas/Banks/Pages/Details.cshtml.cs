@@ -16,7 +16,7 @@ public class DetailsModel : PageModel
 
     public BankModel Bank { get; set; } = default!;
 
-    public DetailsModel(BankDbContext context, EncryptionService encryptionService)
+    public DetailsModel(BankDbContext context, IEncryptionService encryptionService)
     {
         _context = context;
         _encryptionService = encryptionService;
@@ -32,10 +32,8 @@ public class DetailsModel : PageModel
         Bank = new BankModel
         {
             Id = bank.Id,
-            // RoutingNumber = await _encryptionService.DecryptAsync(bank.RoutingNumber),
-            // AccountNumber = await _encryptionService.Decrypt(bank.AccountNumber),
-            RoutingNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(new JsonWebEncryption())),
-            AccountNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(new JsonWebEncryption())),
+            RoutingNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(JsonWebEncryption.FromCompactSerializationFormat(bank.RoutingNumber))),
+            AccountNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(JsonWebEncryption.FromCompactSerializationFormat(bank.AccountNumber))),
             Status = bank.Status
         };
 

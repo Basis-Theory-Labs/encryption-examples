@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Encryption.Converters;
 using Encryption.Structs;
 
 namespace Encryption.Models;
@@ -13,6 +14,7 @@ public class JoseHeader
     /// with that algorithm.
     /// </summary>
     [JsonPropertyName("alg")]
+    [JsonConverter(typeof(NullableEncryptionAlgorithmJsonConverter))]
     public EncryptionAlgorithm? Algorithm { get; set; }
 
     /// <summary>
@@ -24,9 +26,11 @@ public class JoseHeader
     /// not represent a supported algorithm.
     /// </summary>
     [JsonPropertyName("enc")]
+    [JsonConverter(typeof(EncryptionAlgorithmJsonConverter))]
     public EncryptionAlgorithm EncryptionAlgorithm { get; set; }
 
     [JsonPropertyName("zip")]
+    // TODO Json Converter
     public CompressionAlgorithm? CompressionAlgorithm { get; set; }
 
     [JsonPropertyName("jku")]

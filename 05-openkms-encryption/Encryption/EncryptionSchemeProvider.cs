@@ -70,8 +70,8 @@ public class EncryptionSchemeProvider : IEncryptionSchemeProvider
 
     public Task<EncryptionScheme?> GetDefaultEncryptSchemeAsync()
     {
-        return _options.DefaultEncryptionScheme != null
-            ? GetSchemeAsync(_options.DefaultEncryptionScheme)
+        return _options.DefaultEncryptScheme != null
+            ? GetSchemeAsync(_options.DefaultEncryptScheme)
             : GetDefaultSchemeAsync();
     }
 

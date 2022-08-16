@@ -1,3 +1,4 @@
+using System.Text;
 using Encryption.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -76,16 +77,30 @@ public class EncryptionService : IEncryptionService
 
     public Task<JsonWebEncryption> EncryptAsync(string ciphertext, string? scheme, CancellationToken cancellationToken = default)
     {
-        return EncryptAsync(Base64UrlEncoder.DecodeBytes(ciphertext), scheme, cancellationToken);
+        return EncryptAsync(Encoding.UTF8.GetBytes(ciphertext), scheme, cancellationToken);
     }
 
-    public Task<byte[]> DecryptAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default)
+    public async Task<byte[]> DecryptAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var decryptScheme = await Schemes.GetDefaultEncryptSchemeAsync();
+
+        if (decryptScheme == null)
+            throw new ArgumentNullException(nameof(decryptScheme));
+
+        var decryptHandler = await Handlers.GetContentEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
+        if (decryptHandler == null)
+            throw new ArgumentNullException(nameof(decryptHandler));
+
+        var plaintext = await decryptHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!, Base64UrlEncoder.DecodeBytes(encryption.Ciphertext),
+            encryption.ProtectedHeader.EncryptionAlgorithm, cancellationToken);
+
+        return plaintext;
     }
 
-    public Task<string> DecryptStringAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default)
+    public async Task<string> DecryptStringAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var plaintextBytes = await DecryptAsync(encryption, cancellationToken);
+
+        return Encoding.UTF8.GetString(plaintextBytes);
     }
 }

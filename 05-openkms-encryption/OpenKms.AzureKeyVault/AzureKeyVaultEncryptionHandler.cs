@@ -15,17 +15,15 @@ namespace OpenKms.AzureKeyVault;
 public class AzureKeyVaultEncryptionHandler : EncryptionHandler<AzureKeyVaultEncryptionOptions>, IEncryptionHandler
 {
     private readonly KeyClient _keyClient;
-    private readonly IOptionsMonitor<AzureKeyVaultEncryptionOptions> _options;
 
-    public AzureKeyVaultEncryptionHandler(KeyClient keyClient, IOptionsMonitor<AzureKeyVaultEncryptionOptions> options)
+    public AzureKeyVaultEncryptionHandler(KeyClient keyClient, IOptionsMonitor<AzureKeyVaultEncryptionOptions> options) : base(options)
     {
         _keyClient = keyClient;
-        _options = options;
     }
 
     public override Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default)
     {
-        return EncryptAsync(plaintext, _options.CurrentValue.DefaultKeyName, cancellationToken);
+        return EncryptAsync(plaintext, Options.DefaultKeyName, cancellationToken);
     }
 
     public override async Task<EncryptResult> EncryptAsync(byte[] plaintext, string keyName,
@@ -55,10 +53,10 @@ public class AzureKeyVaultEncryptionHandler : EncryptionHandler<AzureKeyVaultEnc
 
         var cryptoClient = new CryptographyClient(key.Key);
         var encryptResult =
-            await cryptoClient.EncryptAsync(_options.CurrentValue.DefaultEncryptionAlgorithm.ToString(), plaintext,
+            await cryptoClient.EncryptAsync(Options.DefaultEncryptionAlgorithm.ToString(), plaintext,
                 cancellationToken);
 
-        return new EncryptResult(encryptResult.Ciphertext, encryptResult.Algorithm.ToString(), key.ToJsonWebKey());
+        return new EncryptResult(encryptResult.Ciphertext, Options.DefaultEncryptionAlgorithm.ToString(), key.ToJsonWebKey());
     }
 
     public override async Task<byte[]> DecryptAsync(string keyId, byte[] ciphertext,
@@ -81,11 +79,11 @@ public class AzureKeyVaultEncryptionHandler : EncryptionHandler<AzureKeyVaultEnc
             var cryptoClient = new CryptographyClient(keyResponse.Value.Key);
 
             var encryptResult =
-                await cryptoClient.EncryptAsync(_options.CurrentValue.DefaultEncryptionAlgorithm.ToString(),
+                await cryptoClient.EncryptAsync(Options.DefaultEncryptionAlgorithm.ToString(),
                     key.GetBytes(),
                     cancellationToken);
 
-            return new WrapKeyResult(encryptResult.Ciphertext, encryptResult.Algorithm.ToString(),
+            return new WrapKeyResult(encryptResult.Ciphertext, Options.DefaultEncryptionAlgorithm.ToString(),
                 keyResponse.Value.ToJsonWebKey());
         }
         catch (RequestFailedException ex)
