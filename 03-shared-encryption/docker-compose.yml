@@ -4,7 +4,7 @@ services:
   customer-portal:
     container_name: customer-portal
     ports:
-      - 5990:80
+      - "5990:80"
     build:
       context: .
       dockerfile: ./CustomerPortal/Dockerfile
@@ -23,7 +23,7 @@ services:
   bank-processor:
     container_name: bank-processor
     ports:
-      - 5991:5991
+      - "5991:5991"
     build:
       context: .
       dockerfile: ./BankProcessor/Dockerfile
@@ -48,12 +48,12 @@ services:
       MSSQL_SA_PASSWORD: password123!
       MSSQL_DB: Bank
     ports:
-      - 5544:1433
+      - "5544:1433"
 
   bank-keyvault-emulator:
     image: basistheory/azure-keyvault-emulator:latest
     ports:
-      - 5590:5590
+      - "5590:5590"
     volumes:
       - ../local-certs:/https
     environment:
