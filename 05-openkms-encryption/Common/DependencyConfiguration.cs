@@ -2,11 +2,13 @@ using Azure.Core;
 using Common.Data;
 using Common.Encryption;
 using Encryption.Extensions.DependencyInjection;
+using Encryption.Structs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenKms.AzureKeyVault;
+using OpenKms.System.Security.Cryptography;
 
 namespace Common;
 
@@ -31,9 +33,15 @@ public static class DependencyConfiguration
             {
                 o.DefaultScheme = "default";
             })
-            .AddScheme<AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler>("default", "DEFAULT", options =>
+            .AddScheme<AesEncryptionOptions,AesEncryptionHandler, AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler>("default", "DEFAULT", options =>
             {
                 options.DefaultKeyName = configuration.GetValue<string>("Encryption:KeyName");
+                options.DefaultEncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
+                options.DefaultKeySize = 256;
+            }, options =>
+            {
+                options.DefaultKeyName = configuration.GetValue<string>("Encryption:KeyName");
+                options.DefaultEncryptionAlgorithm = EncryptionAlgorithm.RSA_OAEP;
             });
 
         // services.Configure<AzureKeyVaultEncryptionOptions>(o =>

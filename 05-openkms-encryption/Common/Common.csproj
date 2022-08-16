@@ -25,6 +25,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\OpenKms.AzureKeyVault\OpenKms.AzureKeyVault.csproj" />
+      <ProjectReference Include="..\OpenKms.System.Security.Cryptography\OpenKms.System.Security.Cryptography.csproj" />
 <!--      <ProjectReference Include="..\OpenKms\OpenKms.csproj" />-->
     </ItemGroup>
 

@@ -1,7 +1,9 @@
 using System.Text;
 using Encryption.Models;
+using Encryption.Structs;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using JsonWebKey = Encryption.Models.JsonWebKey;
 
 namespace Encryption;
 
@@ -87,14 +89,30 @@ public class EncryptionService : IEncryptionService
         if (decryptScheme == null)
             throw new ArgumentNullException(nameof(decryptScheme));
 
-        var decryptHandler = await Handlers.GetContentEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
-        if (decryptHandler == null)
-            throw new ArgumentNullException(nameof(decryptHandler));
+        var contentEncryptionHandler = await Handlers.GetContentEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
+        if (contentEncryptionHandler == null)
+            throw new ArgumentNullException(nameof(contentEncryptionHandler));
 
-        var plaintext = await decryptHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!, Base64UrlEncoder.DecodeBytes(encryption.Ciphertext),
+        var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
+
+        if (keyEncryptionHandler == null)
+            return await contentEncryptionHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!, Base64UrlEncoder.DecodeBytes(encryption.Ciphertext),
             encryption.ProtectedHeader.EncryptionAlgorithm, cancellationToken);
 
-        return plaintext;
+        var cekBytes = await keyEncryptionHandler.UnwrapKeyAsync(encryption.ProtectedHeader!.KeyId!,
+            Base64UrlEncoder.DecodeBytes(encryption.EncryptedKey!), encryption.ProtectedHeader.Algorithm!.Value,
+            cancellationToken);
+
+        var cek = new JsonWebKey()
+        {
+            Algorithm = encryption.ProtectedHeader.EncryptionAlgorithm,
+            KeyType = KeyType.OCT,
+            K = cekBytes
+        };
+
+        return await contentEncryptionHandler.DecryptAsync(cek, Base64UrlEncoder.DecodeBytes(encryption.Ciphertext),
+            encryption.ProtectedHeader.EncryptionAlgorithm, Base64UrlEncoder.DecodeBytes(encryption.InitializationVector!), cancellationToken);
+
     }
 
     public async Task<string> DecryptStringAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default)

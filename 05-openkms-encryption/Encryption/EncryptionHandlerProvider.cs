@@ -34,7 +34,7 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
 
         if (encryptionScheme!.KeyEncryptionHandlerType == null) return null;
 
-        var handler = _serviceProvider.GetService(encryptionScheme!.KeyEncryptionHandlerType) as IEncryptionHandler;
+        var handler = _serviceProvider.GetService(encryptionScheme.KeyEncryptionHandlerType) as IEncryptionHandler;
 
         if (handler != null)
             await handler.InitializeAsync(encryptionScheme);

@@ -15,6 +15,8 @@ public interface IEncryptionHandler
     Task<EncryptResult> EncryptAsync(byte[] plaintext, string keyName, CancellationToken cancellationToken = default);
 
     Task<byte[]> DecryptAsync(string keyId, byte[] ciphertext, EncryptionAlgorithm algorithm, CancellationToken cancellationToken = default);
+    Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, EncryptionAlgorithm algorithm, byte[]? iv = null, CancellationToken cancellationToken = default);
 
     Task<WrapKeyResult> WrapKeyAsync(JsonWebKey key, string keyName, CancellationToken cancellationToken = default);
+    Task<byte[]> UnwrapKeyAsync(string keyId, byte[] encryptedKey, EncryptionAlgorithm algorithm, CancellationToken cancellationToken = default);
 }
