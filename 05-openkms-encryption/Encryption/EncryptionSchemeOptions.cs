@@ -16,7 +16,7 @@ public class EncryptionSchemeOptions
     public virtual void Validate(string scheme)
         => Validate();
 
-    public EncryptionAlgorithm DefaultEncryptionAlgorithm { get; set; } = EncryptionAlgorithm.RSA1_5;
+    public virtual EncryptionAlgorithm DefaultEncryptionAlgorithm { get; set; } = EncryptionAlgorithm.RSA1_5;
 
     public string DefaultKeyName { get; set; } = ".default";
 }

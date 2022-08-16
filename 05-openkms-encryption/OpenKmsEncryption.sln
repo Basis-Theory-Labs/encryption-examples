@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenKms.AzureKeyVault", "Op
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\Encryption.csproj", "{E3413219-FB4E-4018-9EEC-16B75E96EC18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenKms.System.Security.Cryptography", "OpenKms.System.Security.Cryptography\OpenKms.System.Security.Cryptography.csproj", "{1BF3FDDE-72AD-4A20-BE81-1BB726620939}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
