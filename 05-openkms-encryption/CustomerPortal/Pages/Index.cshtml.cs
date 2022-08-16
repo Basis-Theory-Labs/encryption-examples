@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace NoEncryption.Pages;
+namespace CustomerPortal.Pages;
 
 public class IndexModel : PageModel
 {

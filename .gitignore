@@ -76,7 +76,6 @@ _[Ss]cripts
 *.dot[Cc]over
 *.idea/
 *.DS_Store
-**/wwwroot/lib/*
 **/wwwroot/dist/*
 .vs/
 node_modules/
