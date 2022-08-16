@@ -2,7 +2,6 @@ using System.Text;
 using Encryption.Models;
 using Encryption.Structs;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using JsonWebKey = Encryption.Models.JsonWebKey;
 
 namespace Encryption;
@@ -71,9 +70,9 @@ public class EncryptionService : IEncryptionService
                 EncryptionAlgorithm = encryptContentResult.Algorithm,
                 Algorithm = wrapKeyResult?.Algorithm,
             },
-            EncryptedKey = wrapKeyResult?.Ciphertext != null ? Base64UrlEncoder.Encode(wrapKeyResult.Ciphertext) : null,
-            Ciphertext = Base64UrlEncoder.Encode(encryptContentResult.Ciphertext),
-            InitializationVector = encryptContentResult.Iv != null ? Base64UrlEncoder.Encode(encryptContentResult.Iv) : null,
+            EncryptedKey = wrapKeyResult?.Ciphertext != null ? Encoding.UTF8.GetString(wrapKeyResult.Ciphertext) : null,
+            Ciphertext = Encoding.UTF8.GetString(encryptContentResult.Ciphertext),
+            InitializationVector = encryptContentResult.Iv != null ? Encoding.UTF8.GetString(encryptContentResult.Iv) : null,
         };
     }
 
@@ -96,11 +95,11 @@ public class EncryptionService : IEncryptionService
         var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
 
         if (keyEncryptionHandler == null)
-            return await contentEncryptionHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!, Base64UrlEncoder.DecodeBytes(encryption.Ciphertext),
+            return await contentEncryptionHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!, Encoding.UTF8.GetBytes(encryption.Ciphertext!),
             encryption.ProtectedHeader.EncryptionAlgorithm, cancellationToken);
 
         var cekBytes = await keyEncryptionHandler.UnwrapKeyAsync(encryption.ProtectedHeader!.KeyId!,
-            Base64UrlEncoder.DecodeBytes(encryption.EncryptedKey!), encryption.ProtectedHeader.Algorithm!.Value,
+            Encoding.UTF8.GetBytes(encryption.EncryptedKey!), encryption.ProtectedHeader.Algorithm!.Value,
             cancellationToken);
 
         var cek = new JsonWebKey()
@@ -110,8 +109,8 @@ public class EncryptionService : IEncryptionService
             K = cekBytes
         };
 
-        return await contentEncryptionHandler.DecryptAsync(cek, Base64UrlEncoder.DecodeBytes(encryption.Ciphertext),
-            encryption.ProtectedHeader.EncryptionAlgorithm, Base64UrlEncoder.DecodeBytes(encryption.InitializationVector!), cancellationToken);
+        return await contentEncryptionHandler.DecryptAsync(cek, Encoding.UTF8.GetBytes(encryption.Ciphertext!),
+            encryption.ProtectedHeader.EncryptionAlgorithm, Encoding.UTF8.GetBytes(encryption.InitializationVector!), cancellationToken);
 
     }
 
