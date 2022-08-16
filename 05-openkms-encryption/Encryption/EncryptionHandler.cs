@@ -37,12 +37,9 @@ public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOp
     protected IOptionsMonitor<TOptions> OptionsMonitor { get; }
 
     /// <summary>
-    /// Initializes a new instance of <see cref="AuthenticationHandler{TOptions}"/>.
+    /// Initializes a new instance of <see cref="EncryptionHandler{TOptions}"/>.
     /// </summary>
     /// <param name="options">The monitor for the options instance.</param>
-    /// <param name="logger">The <see cref="ILoggerFactory"/>.</param>
-    /// <param name="encoder">The <see cref="System.Text.Encodings.Web.UrlEncoder"/>.</param>
-    /// <param name="clock">The <see cref="ISystemClock"/>.</param>
     protected EncryptionHandler(IOptionsMonitor<TOptions> options)
     {
         OptionsMonitor = options;

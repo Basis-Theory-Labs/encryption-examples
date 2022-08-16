@@ -13,37 +13,37 @@ public class EncryptionBuilder
     /// </summary>
     public virtual IServiceCollection Services { get; }
 
-    private EncryptionBuilder AddSchemeHelper<TOptions, TContentEncryptionHandler>(string authenticationScheme, string? displayName, Action<TOptions>? configureOptions)
+    private EncryptionBuilder AddSchemeHelper<TOptions, TContentEncryptionHandler>(string encryptionScheme, string? displayName, Action<TOptions>? configureOptions)
         where TOptions : EncryptionSchemeOptions, new()
         where TContentEncryptionHandler : class, IEncryptionHandler
     {
         Services.Configure<EncryptionOptions>(o =>
         {
-            o.AddScheme(authenticationScheme, scheme => {
+            o.AddScheme(encryptionScheme, scheme => {
                 scheme.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
                 scheme.DisplayName = displayName;
             });
         });
         if (configureOptions != null)
         {
-            Services.Configure(authenticationScheme, configureOptions);
+            Services.Configure(encryptionScheme, configureOptions);
         }
-        Services.AddOptions<TOptions>(authenticationScheme).Validate(o => {
-            o.Validate(authenticationScheme);
+        Services.AddOptions<TOptions>(encryptionScheme).Validate(o => {
+            o.Validate(encryptionScheme);
             return true;
         });
         Services.AddSingleton<TContentEncryptionHandler>();
         return this;
     }
 
-    private EncryptionBuilder AddSchemeHelper<TOptions, TContentEncryptionHandler, TKeyEncryptionHandler>(string authenticationScheme, string? displayName, Action<TOptions>? configureOptions)
+    private EncryptionBuilder AddSchemeHelper<TOptions, TContentEncryptionHandler, TKeyEncryptionHandler>(string encryptionScheme, string? displayName, Action<TOptions>? configureOptions)
         where TOptions : EncryptionSchemeOptions, new()
         where TContentEncryptionHandler : class, IEncryptionHandler
         where TKeyEncryptionHandler : class, IEncryptionHandler
     {
         Services.Configure<EncryptionOptions>(o =>
         {
-            o.AddScheme(authenticationScheme, scheme => {
+            o.AddScheme(encryptionScheme, scheme => {
                 scheme.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
                 scheme.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);
                 scheme.DisplayName = displayName;
@@ -51,10 +51,10 @@ public class EncryptionBuilder
         });
         if (configureOptions != null)
         {
-            Services.Configure(authenticationScheme, configureOptions);
+            Services.Configure(encryptionScheme, configureOptions);
         }
-        Services.AddOptions<TOptions>(authenticationScheme).Validate(o => {
-            o.Validate(authenticationScheme);
+        Services.AddOptions<TOptions>(encryptionScheme).Validate(o => {
+            o.Validate(encryptionScheme);
             return true;
         });
         Services.AddSingleton<TContentEncryptionHandler>();

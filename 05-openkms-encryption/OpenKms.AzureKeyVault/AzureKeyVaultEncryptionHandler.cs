@@ -16,7 +16,8 @@ public class AzureKeyVaultEncryptionHandler : EncryptionHandler<AzureKeyVaultEnc
 {
     private readonly KeyClient _keyClient;
 
-    public AzureKeyVaultEncryptionHandler(KeyClient keyClient, IOptionsMonitor<AzureKeyVaultEncryptionOptions> options) : base(options)
+    public AzureKeyVaultEncryptionHandler(KeyClient keyClient, IOptionsMonitor<AzureKeyVaultEncryptionOptions> options)
+        : base(options)
     {
         _keyClient = keyClient;
     }
