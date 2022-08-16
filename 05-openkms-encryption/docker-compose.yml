@@ -2,9 +2,8 @@ version: '3.9'
 
 services:
   customer-portal:
-    container_name: customer-portal
     ports:
-      - 5990:80
+      - 5790:80
     build:
       context: .
       dockerfile: ./CustomerPortal/Dockerfile
@@ -13,16 +12,15 @@ services:
       - bank-keyvault-emulator
     entrypoint: sh -c "cp -r /https/. /usr/local/share/ca-certificates/. && update-ca-certificates && exec dotnet CustomerPortal.dll"
     volumes:
-      - ./local-certs/:/https
+      - ../local-certs/:/https
     environment:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
       - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
 
   bank-processor:
-    container_name: bank-processor
     ports:
-      - 5991:5991
+      - 5791:5791
     build:
       context: .
       dockerfile: ./BankProcessor/Dockerfile
@@ -32,29 +30,29 @@ services:
       - customer-portal
     entrypoint: sh -c "cp -r /https/. /usr/local/share/ca-certificates/. && update-ca-certificates && exec dotnet BankProcessor.dll"
     volumes:
-      - ./local-certs/:/https
+      - ../local-certs/:/https
     environment:
-      - ASPNETCORE_URLS=http://+:5991
+      - ASPNETCORE_URLS=http://+:5791
       - ConnectionStrings__Banks=Server=db;Database=Bank;User Id=sa;Password=password123!;Connection Timeout=90;
-      - Encryption__ProviderUri=https://bank-keyvault-emulator:5590/
+      - Encryption__ProviderUri=https://bank-keyvault-emulator:5792/
 
   db:
     build:
-      context: db
+      context: ../db
     environment:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: password123!
       MSSQL_DB: Bank
     ports:
-      - 5544:1433
+      - 5744:1433
 
   bank-keyvault-emulator:
     image: basistheory/azure-keyvault-emulator:latest
     ports:
-      - 5590:5590
+      - 5792:5792
     volumes:
-      - ./local-certs:/https
+      - ../local-certs:/https
     environment:
-      - ASPNETCORE_URLS=https://+:5590
+      - ASPNETCORE_URLS=https://+:5792
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/bank-keyvault-emulator.pfx
       - KeyVault__Name=bank-keyvault-emulator
