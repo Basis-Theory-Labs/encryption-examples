@@ -62,12 +62,11 @@ public class EncryptionService : IEncryptionService
 
         return new JsonWebEncryption
         {
-            UnprotectedHeader = new JoseHeader
+            ProtectedHeader = new JoseHeader
             {
                 KeyId = wrapKeyResult?.Key?.KeyId ?? encryptContentResult.Key?.KeyId,
                 EncryptionAlgorithm = encryptContentResult.Algorithm,
                 Algorithm = wrapKeyResult?.Algorithm,
-
             },
             EncryptedKey = wrapKeyResult?.Ciphertext != null ? Base64UrlEncoder.Encode(wrapKeyResult.Ciphertext) : null,
             Ciphertext = Base64UrlEncoder.Encode(encryptContentResult.Ciphertext),

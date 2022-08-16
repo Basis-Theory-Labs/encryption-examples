@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,7 +10,7 @@ public class JsonWebEncryption
     /// with the value BASE64URL(UTF8(JWE Protected Header))
     /// </summary>
     [JsonPropertyName("protected")]
-    public string? ProtectedHeader { get; set; }
+    public JoseHeader? ProtectedHeader { get; set; }
 
     /// <summary>
     /// with the value JWE Shared Unprotected Header
@@ -40,7 +41,12 @@ public class JsonWebEncryption
 
     public string ToCompactSerializationFormat()
     {
-        var protectedHeader = ProtectedHeader != null ? Base64UrlEncoder.Encode(ProtectedHeader) : "";
+        var protectedHeader = "";
+        if (ProtectedHeader != null)
+        {
+            var serializedHeader = JsonSerializer.Serialize(ProtectedHeader, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            protectedHeader = Base64UrlEncoder.Encode(serializedHeader);
+        }
 
         var encryptedKey = EncryptedKey != null ? Base64UrlEncoder.Encode(EncryptedKey) : "";
 
