@@ -43,7 +43,7 @@ public class EncryptionService : IEncryptionService
     {
         var encryptionScheme = scheme != null
             ? await Schemes.GetSchemeAsync(scheme)
-            : await Schemes.GetDefaultEncryptionSchemeAsync();
+            : await Schemes.GetDefaultEncryptSchemeAsync();
 
         if (encryptionScheme == null)
             throw new ArgumentNullException(nameof(encryptionScheme));

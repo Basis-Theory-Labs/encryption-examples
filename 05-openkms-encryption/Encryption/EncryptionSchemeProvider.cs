@@ -7,7 +7,9 @@ public interface IEncryptionSchemeProvider
 {
     Task<IEnumerable<EncryptionScheme>> GetSchemesAsync();
     Task<EncryptionScheme?> GetSchemeAsync(string schemeName);
-    Task<EncryptionScheme?> GetDefaultEncryptionSchemeAsync();
+    Task<EncryptionScheme?> GetDefaultEncryptSchemeAsync();
+    Task<EncryptionScheme?> GetDefaultWrapKeySchemeAsync();
+    Task<EncryptionScheme?> GetDefaultSignSchemeAsync();
 
     void AddScheme(EncryptionScheme scheme);
     bool TryAddScheme(EncryptionScheme scheme);
@@ -34,7 +36,7 @@ public class EncryptionSchemeProvider : IEncryptionSchemeProvider
     /// using the specified <paramref name="options"/> and <paramref name="schemes"/>.
     /// </summary>
     /// <param name="options">The <see cref="EncryptionOptions"/> options.</param>
-    /// <param name="schemes">The dictionary used to store authentication schemes.</param>
+    /// <param name="schemes">The dictionary used to store encryption schemes.</param>
     protected EncryptionSchemeProvider(IOptions<EncryptionOptions> options, IDictionary<string, EncryptionScheme> schemes)
     {
         _options = options.Value;
@@ -66,11 +68,21 @@ public class EncryptionSchemeProvider : IEncryptionSchemeProvider
         return Task.FromResult<EncryptionScheme?>(scheme);
     }
 
-    public Task<EncryptionScheme?> GetDefaultEncryptionSchemeAsync()
+    public Task<EncryptionScheme?> GetDefaultEncryptSchemeAsync()
     {
         return _options.DefaultEncryptionScheme != null
             ? GetSchemeAsync(_options.DefaultEncryptionScheme)
             : GetDefaultSchemeAsync();
+    }
+
+    public Task<EncryptionScheme?> GetDefaultWrapKeySchemeAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<EncryptionScheme?> GetDefaultSignSchemeAsync()
+    {
+        throw new NotImplementedException();
     }
 
     public void AddScheme(EncryptionScheme scheme)
