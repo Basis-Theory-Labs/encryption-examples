@@ -51,12 +51,6 @@ public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOp
     public abstract Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, EncryptionAlgorithm algorithm,
         byte[]? iv = null, CancellationToken cancellationToken = default);
 
-    public abstract Task<WrapKeyResult> WrapKeyAsync(JsonWebKey key, string keyName,
-        CancellationToken cancellationToken = default);
-
-    public abstract Task<byte[]> UnwrapKeyAsync(string keyId, byte[] encryptedKey, EncryptionAlgorithm algorithm,
-        CancellationToken cancellationToken = default);
-
     /// <summary>
     /// Gets the <see cref="IOptionsMonitor{TOptions}"/> to detect changes to options.
     /// </summary>

@@ -25,7 +25,7 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
 
         var ciphertext = aes.EncryptCbc(plaintext, iv);
 
-        return Task.FromResult(new EncryptResult(ciphertext, Options.DefaultEncryptionAlgorithm,
+        return Task.FromResult(new EncryptResult(ciphertext, Options.EncryptionAlgorithm,
             new JsonWebKey
             {
                 KeyType = KeyType.OCT,
@@ -61,15 +61,5 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
         // aes.IV = iv;
 
         return Task.FromResult(aes.DecryptCbc(ciphertext, iv));
-    }
-
-    public override Task<WrapKeyResult> WrapKeyAsync(JsonWebKey key, string keyName, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task<byte[]> UnwrapKeyAsync(string keyId, byte[] encryptedKey, EncryptionAlgorithm algorithm, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
     }
 }

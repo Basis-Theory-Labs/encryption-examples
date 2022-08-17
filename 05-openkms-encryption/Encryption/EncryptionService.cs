@@ -1,4 +1,5 @@
 using System.Text;
+using Encryption.Extensions;
 using Encryption.Models;
 using Encryption.Structs;
 using Microsoft.Extensions.Options;
@@ -58,9 +59,9 @@ public class EncryptionService : IEncryptionService
 
         var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(encryptionScheme.Name, cancellationToken);
 
-        WrapKeyResult? wrapKeyResult = null;
+        EncryptResult? wrapKeyResult = null;
         if (keyEncryptionHandler != null)
-            wrapKeyResult = await keyEncryptionHandler.WrapKeyAsync(encryptContentResult.Key!, "foobar", cancellationToken);
+            wrapKeyResult = await keyEncryptionHandler.EncryptAsync(encryptContentResult.Key!.GetBytes(), cancellationToken);
 
         return new JsonWebEncryption
         {
@@ -98,7 +99,7 @@ public class EncryptionService : IEncryptionService
             return await contentEncryptionHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!, Convert.FromBase64String(encryption.Ciphertext!),
             encryption.ProtectedHeader.EncryptionAlgorithm, cancellationToken);
 
-        var cekBytes = await keyEncryptionHandler.UnwrapKeyAsync(encryption.ProtectedHeader!.KeyId!,
+        var cekBytes = await keyEncryptionHandler.DecryptAsync(encryption.ProtectedHeader!.KeyId!,
             Convert.FromBase64String(encryption.EncryptedKey!), encryption.ProtectedHeader.Algorithm!.Value,
             cancellationToken);
 

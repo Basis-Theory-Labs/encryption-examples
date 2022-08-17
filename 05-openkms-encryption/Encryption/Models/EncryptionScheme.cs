@@ -2,8 +2,7 @@ namespace Encryption.Models;
 
 public class EncryptionScheme
 {
-    public EncryptionScheme(string name, string? displayName, Type contentEncryptionHandlerType, Type?  contentEncryptionKeyNameProviderType = null, Type? keyEncryptionHandlerType = null,
-        Type? keyEncryptionKeyNameProviderType = null)
+    public EncryptionScheme(string name, string? displayName, Type contentEncryptionHandlerType, Type? keyEncryptionHandlerType)
     {
         if (name == null)
         {
@@ -37,8 +36,6 @@ public class EncryptionScheme
 
     public Type ContentEncryptionHandlerType { get; }
 
-    public Type? ContentEncryptionKeyNameProviderType { get; }
     public Type? KeyEncryptionHandlerType { get; }
 
-    public Type? KeyEncryptionKeyNameProviderType { get; }
 }

@@ -1,6 +1,6 @@
+using Common.Constants;
 using Common.Data;
 using Common.Data.Entities;
-using Common.Encryption;
 using CustomerPortal.Areas.Banks.Models;
 using Encryption;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +32,8 @@ public class CreateModel : PageModel
         {
             Id = Guid.NewGuid(),
             Status = ProcessStatus.PENDING,
-            RoutingNumber = (await _encryptionService.EncryptAsync(Bank.RoutingNumber, "default", cancellationToken)).ToCompactSerializationFormat(),
-            AccountNumber = (await _encryptionService.EncryptAsync(Bank.AccountNumber, "default", cancellationToken)).ToCompactSerializationFormat(),
+            RoutingNumber = (await _encryptionService.EncryptAsync(Bank.RoutingNumber, EncryptionSchemes.BankRoutingNumber, cancellationToken)).ToCompactSerializationFormat(),
+            AccountNumber = (await _encryptionService.EncryptAsync(Bank.AccountNumber, EncryptionSchemes.BankAccountNumber, cancellationToken)).ToCompactSerializationFormat(),
         };
 
         _context.Banks.Add(bank);

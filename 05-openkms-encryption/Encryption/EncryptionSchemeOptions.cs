@@ -2,7 +2,7 @@ using Encryption.Structs;
 
 namespace Encryption;
 
-public class EncryptionSchemeOptions
+public abstract class EncryptionSchemeOptions
 {
     /// <summary>
     /// Check that the options are valid. Should throw an exception if things are not ok.
@@ -16,7 +16,13 @@ public class EncryptionSchemeOptions
     public virtual void Validate(string scheme)
         => Validate();
 
-    public virtual EncryptionAlgorithm DefaultEncryptionAlgorithm { get; set; } = EncryptionAlgorithm.RSA1_5;
+    public virtual EncryptionAlgorithm EncryptionAlgorithm { get; set; } = EncryptionAlgorithm.RSA1_5;
+
+    public virtual KeyType KeyType { get; set; } = default!;
+
+    public virtual int? KeySize { get; set; }
+
+    public abstract IList<KeyOperation> KeyOperations { get; set; }
 
     public string DefaultKeyName { get; set; } = ".default";
 }
