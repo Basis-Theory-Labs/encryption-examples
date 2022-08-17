@@ -4,6 +4,26 @@ using Microsoft.Extensions.Options;
 
 namespace Encryption;
 
+public interface IKeyNameProvider
+{
+    string GetKeyName();
+}
+
+public class GuidKeyNameProvider : IKeyNameProvider
+{
+    public string GetKeyName() => Guid.NewGuid().ToString();
+}
+
+public abstract class EncryptionHandler<TOptions, TKeyNameProvider> : EncryptionHandler<TOptions>
+    where TOptions : EncryptionSchemeOptions, new()
+    where TKeyNameProvider : IKeyNameProvider
+{
+    protected TKeyNameProvider KeyNameProvider { get; }
+    protected EncryptionHandler(IOptionsMonitor<TOptions> options, TKeyNameProvider keyNameProvider) : base(options)
+    {
+        KeyNameProvider = keyNameProvider;
+    }
+}
 /// <summary>
 /// An opinionated abstraction for implementing <see cref="IEncryptionHandler"/>.
 /// </summary>

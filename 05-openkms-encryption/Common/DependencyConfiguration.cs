@@ -1,6 +1,7 @@
 using Azure.Core;
 using Common.Data;
 using Common.Encryption;
+using Encryption;
 using Encryption.Extensions.DependencyInjection;
 using Encryption.Structs;
 using Microsoft.EntityFrameworkCore;
@@ -29,11 +30,12 @@ public static class DependencyConfiguration
             b.UseCredential(tokenCredential);
         });
 
+        services.AddSingleton<GuidKeyNameProvider>();
         services.AddEncryption(o =>
             {
                 o.DefaultScheme = "default";
             })
-            .AddScheme<AesEncryptionOptions,AesEncryptionHandler, AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler>("default", "DEFAULT", options =>
+            .AddScheme<AesEncryptionOptions ,AesEncryptionHandler, AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler<GuidKeyNameProvider>>("default", "DEFAULT", options =>
             {
                 options.DefaultKeyName = configuration.GetValue<string>("Encryption:KeyName");
                 options.DefaultEncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;

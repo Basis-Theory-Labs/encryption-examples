@@ -40,6 +40,6 @@ public class EncryptionSchemeBuilder
             throw new InvalidOperationException($"{nameof(ContentEncryptionHandlerType)} must be configured to build an {nameof(EncryptionScheme)}.");
         }
 
-        return new EncryptionScheme(Name, DisplayName, ContentEncryptionHandlerType, KeyEncryptionHandlerType);
+        return new EncryptionScheme(Name, DisplayName, ContentEncryptionHandlerType, null, KeyEncryptionHandlerType);
     }
 }

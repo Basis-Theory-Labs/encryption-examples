@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Encryption;
 
 public interface IEncryptionHandlerProvider
@@ -21,7 +23,7 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
     {
         var encryptionScheme = await _schemeProvider.GetSchemeAsync(scheme);
 
-        var handler = _serviceProvider.GetService(encryptionScheme!.ContentEncryptionHandlerType) as IEncryptionHandler;
+        var handler = _serviceProvider.GetRequiredService(encryptionScheme!.ContentEncryptionHandlerType) as IEncryptionHandler;
 
         await handler!.InitializeAsync(encryptionScheme);
 
@@ -34,7 +36,7 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
 
         if (encryptionScheme!.KeyEncryptionHandlerType == null) return null;
 
-        var handler = _serviceProvider.GetService(encryptionScheme.KeyEncryptionHandlerType) as IEncryptionHandler;
+        var handler = _serviceProvider.GetRequiredService(encryptionScheme.KeyEncryptionHandlerType) as IEncryptionHandler;
 
         if (handler != null)
             await handler.InitializeAsync(encryptionScheme);

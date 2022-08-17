@@ -13,19 +13,19 @@ using JsonWebKey = Encryption.Models.JsonWebKey;
 
 namespace OpenKms.AzureKeyVault;
 
-public class AzureKeyVaultEncryptionHandler : EncryptionHandler<AzureKeyVaultEncryptionOptions>, IEncryptionHandler
+public class AzureKeyVaultEncryptionHandler<TKeyNameProvider> : EncryptionHandler<AzureKeyVaultEncryptionOptions, TKeyNameProvider>, IEncryptionHandler where TKeyNameProvider : IKeyNameProvider
 {
     private readonly KeyClient _keyClient;
 
-    public AzureKeyVaultEncryptionHandler(KeyClient keyClient, IOptionsMonitor<AzureKeyVaultEncryptionOptions> options)
-        : base(options)
+    public AzureKeyVaultEncryptionHandler(KeyClient keyClient, IOptionsMonitor<AzureKeyVaultEncryptionOptions> options, TKeyNameProvider keyNameProvider)
+        : base(options, keyNameProvider)
     {
         _keyClient = keyClient;
     }
 
     public override Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default)
     {
-        return EncryptAsync(plaintext, Options.DefaultKeyName, cancellationToken);
+        return EncryptAsync(plaintext, KeyNameProvider.GetKeyName(), cancellationToken);
     }
 
     public override async Task<EncryptResult> EncryptAsync(byte[] plaintext, string keyName,
