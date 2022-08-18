@@ -1,13 +1,11 @@
 using System.Text;
 using Common.Data;
-using Common.Encryption;
 using CustomerPortal.Areas.Banks.Models;
 using Encryption;
 using Encryption.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CustomerPortal.Areas.Banks.Pages;
 
@@ -35,10 +33,8 @@ public class DeleteModel : PageModel
         Bank = new BankModel
         {
             Id = bank.Id,
-            // RoutingNumber = await _encryptionService.DecryptAsync(bank.RoutingNumber),
-            // AccountNumber = await _encryptionService.Decrypt(bank.AccountNumber),
-            RoutingNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(new JsonWebEncryption())),
-            AccountNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(new JsonWebEncryption())),
+            RoutingNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(JsonWebEncryption.FromCompactSerializationFormat(bank.RoutingNumber))),
+            AccountNumber = Encoding.UTF8.GetString(await _encryptionService.DecryptAsync(JsonWebEncryption.FromCompactSerializationFormat(bank.AccountNumber))),
             Status = bank.Status
         };
 
