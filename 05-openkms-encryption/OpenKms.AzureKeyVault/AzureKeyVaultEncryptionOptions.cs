@@ -6,7 +6,11 @@ namespace OpenKms.AzureKeyVault;
 
 public class AzureKeyVaultEncryptionOptions : EncryptionHandlerOptions
 {
-    public override IList<EncryptionAlgorithm> ValidEncryptionAlgorithms { get; }
+    public override IList<EncryptionAlgorithm> ValidEncryptionAlgorithms { get; } = new[]
+    {
+        EncryptionAlgorithm.RSA1_5,
+        EncryptionAlgorithm.RSA_OAEP
+    };
 
     public override Dictionary<KeyType, int?[]> ValidKeyTypeSizes { get; } = new()
     {

@@ -10,6 +10,7 @@ public class AesEncryptionOptions : EncryptionHandlerOptions
         EncryptionAlgorithm.A128GCM,
         EncryptionAlgorithm.A192GCM,
         EncryptionAlgorithm.A256GCM,
+        EncryptionAlgorithm.A256CBC_HS512
     };
 
     public override Dictionary<KeyType, int?[]> ValidKeyTypeSizes { get; } = new()
