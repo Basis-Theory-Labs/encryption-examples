@@ -60,7 +60,8 @@ public class AzureKeyVaultEncryptionHandler<TKeyNameProvider> :
                 await _keyClient.CreateRsaKeyAsync(new CreateRsaKeyOptions(keyName)
                     {
                         KeySize = Options.KeySize,
-                        KeyOperations = { KeyOperation.Decrypt, KeyOperation.Encrypt }
+                        KeyOperations = { KeyOperation.Decrypt, KeyOperation.Encrypt },
+                        ExpiresOn = Options.KeyRotationInterval.HasValue ? DateTimeOffset.Now.Add(Options.KeyRotationInterval.Value) : null,
                     },
                     cancellationToken);
 

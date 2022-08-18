@@ -13,4 +13,6 @@ public class AzureKeyVaultEncryptionOptions : EncryptionHandlerOptions
     public override KeyType KeyType { get; set; } = KeyType.RSA;
 
     public string KeyName { get; set; } = default!;
+
+    public TimeSpan? KeyRotationInterval { get; set; }
 }
