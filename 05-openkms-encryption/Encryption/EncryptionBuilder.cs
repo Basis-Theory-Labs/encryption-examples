@@ -19,12 +19,15 @@ public class EncryptionBuilder
         where TKeyEncryptionOptions : EncryptionHandlerOptions, new()
         where TKeyEncryptionHandler : class, IEncryptionHandler
     {
+        var builder = new EncryptionSchemeBuilder(encryptionScheme, Services)
+        {
+            ContentEncryptionHandlerType = typeof(TContentEncryptionHandler),
+            KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler)
+        };
+
         Services.Configure<EncryptionOptions>(o =>
         {
-            o.AddScheme(encryptionScheme, Services, scheme => {
-                scheme.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
-                scheme.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);
-            });
+            o.AddScheme(builder);
         });
         if (configureContentEncryptionOptions != null)
         {
@@ -70,9 +73,12 @@ public class EncryptionBuilder
 
     public virtual EncryptionBuilder AddScheme(string schemeName, Action<EncryptionSchemeBuilder> configureBuilder)
     {
+        var builder = new EncryptionSchemeBuilder(schemeName, Services);
+        configureBuilder(builder);
+
         Services.Configure<EncryptionOptions>(o =>
         {
-            o.AddScheme(schemeName, Services, configureBuilder);
+            o.AddScheme(builder);
         });
 
         return this;

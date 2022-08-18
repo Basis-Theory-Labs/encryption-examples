@@ -22,50 +22,46 @@ public class EncryptionOptions
         /// <summary>
         /// Adds an <see cref="EncryptionScheme"/>.
         /// </summary>
-        /// <param name="name">The name of the scheme being added.</param>
+        /// <param name="builder">The name of the scheme being added.</param>
         /// <param name="configureBuilder">Configures the scheme.</param>
-        public void AddScheme(string name, IServiceCollection services, Action<EncryptionSchemeBuilder> configureBuilder)
+        public void AddScheme(EncryptionSchemeBuilder builder)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-            if (configureBuilder == null)
-                throw new ArgumentNullException(nameof(configureBuilder));
-            if (SchemeMap.ContainsKey(name))
-                throw new InvalidOperationException("Scheme already exists: " + name);
+            if (builder.Name == null)
+                throw new ArgumentNullException(nameof(builder.Name));
+            if (SchemeMap.ContainsKey(builder.Name))
+                throw new InvalidOperationException($"Scheme already exists: {builder.Name}");
 
-            var builder = new EncryptionSchemeBuilder(name, services);
-            configureBuilder(builder);
             _schemes.Add(builder);
-            SchemeMap[name] = builder;
+            SchemeMap[builder.Name] = builder;
         }
 
-        /// <summary>
-        /// Adds an <see cref="EncryptionScheme"/>.
-        /// </summary>
-        /// <typeparam name="TContentEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for content encryption.</typeparam>
-        /// <param name="name">The name of the scheme being added.</param>
-        /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<TContentEncryptionHandler>(string name, IServiceCollection services) where TContentEncryptionHandler : IEncryptionHandler
-            => AddScheme(name, services, b =>
-            {
-                b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
-            });
-
-        /// <summary>
-        /// Adds an <see cref="EncryptionScheme"/>.
-        /// </summary>
-        /// <typeparam name="TContentEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for content encryption.</typeparam>
-        /// <typeparam name="TKeyEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for key encryption.</typeparam>
-        /// <param name="name">The name of the scheme being added.</param>
-        /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<TContentEncryptionHandler, TKeyEncryptionHandler>(string name, IServiceCollection services)
-            where TContentEncryptionHandler : IEncryptionHandler
-            where TKeyEncryptionHandler : IEncryptionHandler
-            => AddScheme(name, services, b =>
-            {
-                b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
-                b.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);
-            });
+        // /// <summary>
+        // /// Adds an <see cref="EncryptionScheme"/>.
+        // /// </summary>
+        // /// <typeparam name="TContentEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for content encryption.</typeparam>
+        // /// <param name="name">The name of the scheme being added.</param>
+        // /// <param name="displayName">The display name for the scheme.</param>
+        // public void AddScheme<TContentEncryptionHandler>(string name, IServiceCollection services) where TContentEncryptionHandler : IEncryptionHandler
+        //     => AddScheme(name, services, b =>
+        //     {
+        //         b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
+        //     });
+        //
+        // /// <summary>
+        // /// Adds an <see cref="EncryptionScheme"/>.
+        // /// </summary>
+        // /// <typeparam name="TContentEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for content encryption.</typeparam>
+        // /// <typeparam name="TKeyEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for key encryption.</typeparam>
+        // /// <param name="name">The name of the scheme being added.</param>
+        // /// <param name="displayName">The display name for the scheme.</param>
+        // public void AddScheme<TContentEncryptionHandler, TKeyEncryptionHandler>(string name, IServiceCollection services)
+        //     where TContentEncryptionHandler : IEncryptionHandler
+        //     where TKeyEncryptionHandler : IEncryptionHandler
+        //     => AddScheme(name, services, b =>
+        //     {
+        //         b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
+        //         b.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);
+        //     });
 
         /// <summary>
         /// Used as the fallback default scheme for all the other defaults.
