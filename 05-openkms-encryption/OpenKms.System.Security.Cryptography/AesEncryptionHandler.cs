@@ -15,7 +15,8 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
     public override Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default)
     {
         using var aes = Aes.Create();
-        aes.KeySize = Options.KeySize;
+        if (Options.KeySize.HasValue)
+            aes.KeySize = Options.KeySize.Value;
 
         aes.GenerateKey();
         aes.GenerateIV();
