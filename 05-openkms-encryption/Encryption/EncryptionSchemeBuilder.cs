@@ -65,6 +65,48 @@ public class EncryptionSchemeBuilder
         return this;
     }
 
+    public EncryptionSchemeBuilder AddContentEncryption<THandlerOptions, TEncryptionHandler, TDep1, TDep2, TDep3>(Action<THandlerOptions, TDep1, TDep2, TDep3> configureOptions)
+        where THandlerOptions : EncryptionHandlerOptions, new()
+        where TEncryptionHandler : class, IEncryptionHandler
+        where TDep1 : class
+        where TDep2 : class
+        where TDep3 : class
+    {
+        ContentEncryptionHandlerType = typeof(TEncryptionHandler);
+        AddHandlerCore<THandlerOptions, TEncryptionHandler, TDep1, TDep2, TDep3>(configureOptions);
+
+        return this;
+    }
+
+    public EncryptionSchemeBuilder AddContentEncryption<THandlerOptions, TEncryptionHandler, TDep1, TDep2, TDep3, TDep4>(Action<THandlerOptions, TDep1, TDep2, TDep3, TDep4> configureOptions)
+        where THandlerOptions : EncryptionHandlerOptions, new()
+        where TEncryptionHandler : class, IEncryptionHandler
+        where TDep1 : class
+        where TDep2 : class
+        where TDep3 : class
+        where TDep4 : class
+    {
+        ContentEncryptionHandlerType = typeof(TEncryptionHandler);
+        AddHandlerCore<THandlerOptions, TEncryptionHandler, TDep1, TDep2, TDep3, TDep4>(configureOptions);
+
+        return this;
+    }
+
+    public EncryptionSchemeBuilder AddContentEncryption<THandlerOptions, TEncryptionHandler, TDep1, TDep2, TDep3, TDep4, TDep5>(Action<THandlerOptions, TDep1, TDep2, TDep3, TDep4, TDep5> configureOptions)
+        where THandlerOptions : EncryptionHandlerOptions, new()
+        where TEncryptionHandler : class, IEncryptionHandler
+        where TDep1 : class
+        where TDep2 : class
+        where TDep3 : class
+        where TDep4 : class
+        where TDep5 : class
+    {
+        ContentEncryptionHandlerType = typeof(TEncryptionHandler);
+        AddHandlerCore<THandlerOptions, TEncryptionHandler, TDep1, TDep2, TDep3, TDep4, TDep5>(configureOptions);
+
+        return this;
+    }
+
     public EncryptionSchemeBuilder AddKeyEncryption<THandlerOptions, TEncryptionHandler>(Action<THandlerOptions> configureOptions)
         where THandlerOptions : EncryptionHandlerOptions, new()
         where TEncryptionHandler : class, IEncryptionHandler
