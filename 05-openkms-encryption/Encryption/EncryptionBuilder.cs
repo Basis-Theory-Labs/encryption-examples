@@ -14,9 +14,9 @@ public class EncryptionBuilder
     public virtual IServiceCollection Services { get; }
 
     private EncryptionBuilder AddSchemeHelper<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(string encryptionScheme, Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions, IServiceProvider>? configureKeyEncryptionOptions)
-        where TContentEncryptionOptions : EncryptionSchemeOptions, new()
+        where TContentEncryptionOptions : EncryptionHandlerOptions, new()
         where TContentEncryptionHandler : class, IEncryptionHandler
-        where TKeyEncryptionOptions : EncryptionSchemeOptions, new()
+        where TKeyEncryptionOptions : EncryptionHandlerOptions, new()
         where TKeyEncryptionHandler : class, IEncryptionHandler
     {
         Services.Configure<EncryptionOptions>(o =>
@@ -52,9 +52,9 @@ public class EncryptionBuilder
     /// <summary>
     /// Adds a <see cref="EncryptionScheme"/> which can be used by <see cref="IEncryptionService"/>.
     /// </summary>
-    /// <typeparam name="TContentEncryptionOptions">The <see cref="EncryptionSchemeOptions"/> type to configure the content encryptionhandler."/>.</typeparam>
+    /// <typeparam name="TContentEncryptionOptions">The <see cref="EncryptionHandlerOptions"/> type to configure the content encryptionhandler."/>.</typeparam>
     /// <typeparam name="TContentEncryptionHandler">The <see cref="EncryptionHandler{TOptions}"/> used to handle this scheme.</typeparam>
-    /// <typeparam name="TKeyEncryptionOptions">The <see cref="EncryptionSchemeOptions"/> type to configure the key encryption handler."/>.</typeparam>
+    /// <typeparam name="TKeyEncryptionOptions">The <see cref="EncryptionHandlerOptions"/> type to configure the key encryption handler."/>.</typeparam>
     /// <typeparam name="TKeyEncryptionHandler">The <see cref="EncryptionHandler{TOptions}"/> used to handle this scheme.</typeparam>
     /// <param name="encryptionScheme">The name of this scheme.</param>
     /// <param name="configureContentEncryptionOptions">Used to configure the content encryption scheme options.</param>
@@ -62,9 +62,9 @@ public class EncryptionBuilder
     /// <returns>The builder.</returns>
     public virtual EncryptionBuilder AddScheme<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(string encryptionScheme,
         Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions, IServiceProvider>? configureKeyEncryptionOptions)
-        where TContentEncryptionOptions : EncryptionSchemeOptions, new()
+        where TContentEncryptionOptions : EncryptionHandlerOptions, new()
         where TContentEncryptionHandler : EncryptionHandler<TContentEncryptionOptions>
-        where TKeyEncryptionOptions : EncryptionSchemeOptions, new()
+        where TKeyEncryptionOptions : EncryptionHandlerOptions, new()
         where TKeyEncryptionHandler : EncryptionHandler<TKeyEncryptionOptions>
         => AddSchemeHelper<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(encryptionScheme, configureContentEncryptionOptions, configureKeyEncryptionOptions);
 

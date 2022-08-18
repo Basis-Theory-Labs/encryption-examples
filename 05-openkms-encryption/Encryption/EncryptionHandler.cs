@@ -1,5 +1,4 @@
 using Encryption.Models;
-using Encryption.Structs;
 using Microsoft.Extensions.Options;
 
 namespace Encryption;
@@ -15,7 +14,7 @@ public class GuidKeyNameProvider : IKeyNameProvider
 }
 
 public abstract class EncryptionHandler<TOptions, TKeyNameProvider> : EncryptionHandler<TOptions>
-    where TOptions : EncryptionSchemeOptions, new()
+    where TOptions : EncryptionHandlerOptions, new()
     where TKeyNameProvider : IKeyNameProvider
 {
     protected TKeyNameProvider KeyNameProvider { get; }
@@ -24,11 +23,26 @@ public abstract class EncryptionHandler<TOptions, TKeyNameProvider> : Encryption
         KeyNameProvider = keyNameProvider;
     }
 }
+
+public interface IEncryptionHandler
+{
+    /// <summary>
+    /// Initialize the encryption handler. The handler should initialize anything it needs from the scheme as part of this method.
+    /// </summary>
+    /// <param name="scheme">The <see cref="EncryptionScheme"/> scheme.</param>
+    Task InitializeAsync(EncryptionScheme scheme);
+
+    Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default);
+
+    Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, byte[]? iv = null,
+        CancellationToken cancellationToken = default);
+}
+
 /// <summary>
 /// An opinionated abstraction for implementing <see cref="IEncryptionHandler"/>.
 /// </summary>
 /// <typeparam name="TOptions">The type for the options used to configure the encryption handler.</typeparam>
-public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOptions : EncryptionSchemeOptions, new()
+public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOptions : EncryptionHandlerOptions, new()
 {
     /// <summary>
     /// Gets or sets the <see cref="EncryptionScheme"/> associated with this encryption handler.
@@ -42,14 +56,8 @@ public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOp
 
     public abstract Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default);
 
-    public abstract Task<EncryptResult> EncryptAsync(byte[] plaintext, string keyName,
+    public abstract Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, byte[]? iv = null,
         CancellationToken cancellationToken = default);
-
-    public abstract Task<byte[]> DecryptAsync(string keyId, byte[] ciphertext, EncryptionAlgorithm algorithm,
-        CancellationToken cancellationToken = default);
-
-    public abstract Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, EncryptionAlgorithm algorithm,
-        byte[]? iv = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the <see cref="IOptionsMonitor{TOptions}"/> to detect changes to options.
@@ -60,10 +68,7 @@ public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOp
     /// Initializes a new instance of <see cref="EncryptionHandler{TOptions}"/>.
     /// </summary>
     /// <param name="options">The monitor for the options instance.</param>
-    protected EncryptionHandler(IOptionsMonitor<TOptions> options)
-    {
-        OptionsMonitor = options;
-    }
+    protected EncryptionHandler(IOptionsMonitor<TOptions> options) => OptionsMonitor = options;
 
     /// <summary>
     /// Initialize the handler, resolve the options and validate them.
@@ -71,12 +76,7 @@ public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOp
     /// <returns></returns>
     public async Task InitializeAsync(EncryptionScheme scheme)
     {
-        if (scheme == null)
-        {
-            throw new ArgumentNullException(nameof(scheme));
-        }
-
-        Scheme = scheme;
+        Scheme = scheme ?? throw new ArgumentNullException(nameof(scheme));
         Options = OptionsMonitor.Get(Scheme.Name);
 
         await InitializeHandlerAsync();

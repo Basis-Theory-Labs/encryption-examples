@@ -15,8 +15,7 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
     public override Task<EncryptResult> EncryptAsync(byte[] plaintext, CancellationToken cancellationToken = default)
     {
         using var aes = Aes.Create();
-        if(Options.DefaultKeySize.HasValue)
-            aes.KeySize = Options.DefaultKeySize.Value;
+        aes.KeySize = Options.KeySize;
 
         aes.GenerateKey();
         aes.GenerateIV();
@@ -33,19 +32,8 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
             }, iv));
     }
 
-    public override Task<EncryptResult> EncryptAsync(byte[] plaintext, string keyName, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task<byte[]> DecryptAsync(string keyId, byte[] ciphertext, EncryptionAlgorithm algorithm,
+    public override Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, byte[]? iv = null,
         CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, EncryptionAlgorithm algorithm,
-        byte[]? iv = null, CancellationToken cancellationToken = default)
     {
         if (key.K == null)
             throw new ArgumentNullException(nameof(key.K));
@@ -54,11 +42,8 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
             throw new ArgumentNullException(nameof(iv));
 
         using var aes = Aes.Create();
-        if(Options.DefaultKeySize.HasValue)
-            aes.KeySize = Options.DefaultKeySize.Value;
-
         aes.Key = key.K!;
-        // aes.IV = iv;
+        aes.IV = iv;
 
         return Task.FromResult(aes.DecryptCbc(ciphertext, iv));
     }

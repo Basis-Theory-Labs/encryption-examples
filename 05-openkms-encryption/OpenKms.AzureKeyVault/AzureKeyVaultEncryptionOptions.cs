@@ -4,12 +4,13 @@ using Encryption.Structs;
 
 namespace OpenKms.AzureKeyVault;
 
-public class AzureKeyVaultEncryptionOptions : EncryptionSchemeOptions
+public class AzureKeyVaultEncryptionOptions : EncryptionHandlerOptions
 {
-    public override int? KeySize { get; set; } = 2048;
+    public override int KeySize { get; set; } = 2048;
 
-    public override IList<KeyOperation> KeyOperations { get; set; } = new List<KeyOperation>
-        { KeyOperation.Decrypt, KeyOperation.Encrypt };
+    public override EncryptionAlgorithm EncryptionAlgorithm { get; set; } = EncryptionAlgorithm.RSA1_5;
 
     public override KeyType KeyType { get; set; } = KeyType.RSA;
+
+    public string KeyName { get; set; } = default!;
 }

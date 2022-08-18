@@ -23,11 +23,6 @@ public class EncryptionSchemeBuilder
     public string Name { get; }
 
     /// <summary>
-    /// Gets or sets the display name for the scheme being built.
-    /// </summary>
-    public string? DisplayName { get; set; }
-
-    /// <summary>
     /// Gets or sets the content encryption <see cref="IEncryptionHandler"/> type responsible for this scheme.
     /// </summary>
     public Type? ContentEncryptionHandlerType { get; set; }
@@ -38,7 +33,7 @@ public class EncryptionSchemeBuilder
     public Type? KeyEncryptionHandlerType { get; set; }
 
     public EncryptionSchemeBuilder AddContentEncryption<THandlerOptions, TEncryptionHandler>(Action<THandlerOptions> configureOptions)
-        where THandlerOptions : EncryptionSchemeOptions, new()
+        where THandlerOptions : EncryptionHandlerOptions, new()
         where TEncryptionHandler : class, IEncryptionHandler
     {
         ContentEncryptionHandlerType = typeof(TEncryptionHandler);
@@ -48,7 +43,7 @@ public class EncryptionSchemeBuilder
     }
 
     public EncryptionSchemeBuilder AddKeyEncryption<THandlerOptions, TEncryptionHandler>(Action<THandlerOptions> configureOptions)
-        where THandlerOptions : EncryptionSchemeOptions, new()
+        where THandlerOptions : EncryptionHandlerOptions, new()
         where TEncryptionHandler : class, IEncryptionHandler
     {
         KeyEncryptionHandlerType = typeof(TEncryptionHandler);
@@ -58,7 +53,7 @@ public class EncryptionSchemeBuilder
     }
 
     private void AddHandlerCore<THandlerOptions, TEncryptionHandler>(Action<THandlerOptions> configureOptions)
-        where THandlerOptions : EncryptionSchemeOptions, new()
+        where THandlerOptions : EncryptionHandlerOptions, new()
         where TEncryptionHandler : class, IEncryptionHandler
     {
         Services.AddOptions<THandlerOptions>(Name).Configure(configureOptions);
@@ -72,10 +67,8 @@ public class EncryptionSchemeBuilder
     public EncryptionScheme Build()
     {
         if (ContentEncryptionHandlerType is null)
-        {
             throw new InvalidOperationException($"{nameof(ContentEncryptionHandlerType)} must be configured to build an {nameof(EncryptionScheme)}.");
-        }
 
-        return new EncryptionScheme(Name, DisplayName, ContentEncryptionHandlerType, KeyEncryptionHandlerType);
+        return new EncryptionScheme(Name, ContentEncryptionHandlerType, KeyEncryptionHandlerType);
     }
 }

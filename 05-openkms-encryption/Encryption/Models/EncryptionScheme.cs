@@ -2,37 +2,23 @@ namespace Encryption.Models;
 
 public class EncryptionScheme
 {
-    public EncryptionScheme(string name, string? displayName, Type contentEncryptionHandlerType, Type? keyEncryptionHandlerType)
+    public EncryptionScheme(string name, Type contentEncryptionHandlerType, Type? keyEncryptionHandlerType)
     {
-        if (name == null)
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
-
         if (contentEncryptionHandlerType == null)
-        {
             throw new ArgumentNullException(nameof(contentEncryptionHandlerType));
-        }
 
         if (!typeof(IEncryptionHandler).IsAssignableFrom(contentEncryptionHandlerType))
-        {
             throw new ArgumentException("contentEncryptionHandlerType must implement IEncryptionHandler.");
-        }
 
         if (keyEncryptionHandlerType != null && !typeof(IEncryptionHandler).IsAssignableFrom(keyEncryptionHandlerType))
-        {
             throw new ArgumentException("keyEncryptionHandlerType must implement IEncryptionHandler.");
-        }
 
-        Name = name;
+        Name = name ?? throw new ArgumentNullException(nameof(name));
         ContentEncryptionHandlerType = contentEncryptionHandlerType;
         KeyEncryptionHandlerType = keyEncryptionHandlerType;
-        DisplayName = displayName;
     }
 
     public string Name { get; }
-
-    public string? DisplayName { get; }
 
     public Type ContentEncryptionHandlerType { get; }
 

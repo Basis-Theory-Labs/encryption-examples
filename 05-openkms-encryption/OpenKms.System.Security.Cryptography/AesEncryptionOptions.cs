@@ -3,12 +3,11 @@ using Encryption.Structs;
 
 namespace OpenKms.System.Security.Cryptography;
 
-public class AesEncryptionOptions : EncryptionSchemeOptions
+public class AesEncryptionOptions : EncryptionHandlerOptions
 {
     public override EncryptionAlgorithm EncryptionAlgorithm { get; set; } = EncryptionAlgorithm.A256CBC_HS512;
 
-    public override IList<KeyOperation> KeyOperations { get; set; } = new List<KeyOperation>
-        { KeyOperation.Encrypt, KeyOperation.Decrypt };
+    public override KeyType KeyType { get; set; } = KeyType.OCT;
 
-    public int? DefaultKeySize { get; set; } = 256;
+    public override int KeySize { get; set; } = 256;
 }

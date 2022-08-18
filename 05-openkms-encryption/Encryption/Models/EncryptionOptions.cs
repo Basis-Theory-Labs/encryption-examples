@@ -49,10 +49,9 @@ public class EncryptionOptions
         /// <typeparam name="TContentEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for content encryption.</typeparam>
         /// <param name="name">The name of the scheme being added.</param>
         /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<TContentEncryptionHandler>(string name, string? displayName) where TContentEncryptionHandler : IEncryptionHandler
+        public void AddScheme<TContentEncryptionHandler>(string name) where TContentEncryptionHandler : IEncryptionHandler
             => AddScheme(name, b =>
             {
-                b.DisplayName = displayName;
                 b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
             });
 
@@ -63,12 +62,11 @@ public class EncryptionOptions
         /// <typeparam name="TKeyEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for key encryption.</typeparam>
         /// <param name="name">The name of the scheme being added.</param>
         /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<TContentEncryptionHandler, TKeyEncryptionHandler>(string name, string? displayName)
+        public void AddScheme<TContentEncryptionHandler, TKeyEncryptionHandler>(string name)
             where TContentEncryptionHandler : IEncryptionHandler
             where TKeyEncryptionHandler : IEncryptionHandler
             => AddScheme(name, b =>
             {
-                b.DisplayName = displayName;
                 b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
                 b.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);
             });
