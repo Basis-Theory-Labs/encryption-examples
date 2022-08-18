@@ -61,7 +61,8 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
             if (handler.CanDecrypt(key)) return handler;
         }
 
-        throw new NotImplementedException();
+
+        throw new InvalidOperationException($"No content encryption handler is registered that can decrypt {jwe.ProtectedHeader!.ContentEncryptionAlgorithm} using key ID {jwe.ProtectedHeader.KeyId ?? "<null>"}.");
     }
 
     public async Task<IEncryptionHandler?> GetKeyEncryptionHandlerAsync(string scheme,
@@ -101,6 +102,6 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
             if (handler.CanDecrypt(key)) return handler;
         }
 
-        throw new NotImplementedException();
+        throw new InvalidOperationException($"No key encryption handler is registered that can decrypt {jwe.ProtectedHeader!.KeyEncryptionAlgorithm} with key ID {jwe.ProtectedHeader.KeyId ?? "<null>"}.");
     }
 }
