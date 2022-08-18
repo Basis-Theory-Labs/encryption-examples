@@ -48,4 +48,6 @@ public class AesEncryptionHandler : EncryptionHandler<AesEncryptionOptions>, IEn
 
         return Task.FromResult(aes.DecryptCbc(ciphertext, iv));
     }
+
+    public override bool CanDecrypt(JsonWebKey key) => Options.EncryptionAlgorithm == key.Algorithm;
 }

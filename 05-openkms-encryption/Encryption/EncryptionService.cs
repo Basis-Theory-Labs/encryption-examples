@@ -77,17 +77,11 @@ public class EncryptionService : IEncryptionService
 
     public async Task<byte[]> DecryptAsync(JsonWebEncryption encryption, CancellationToken cancellationToken = default)
     {
-        var decryptScheme = await Schemes.GetDefaultEncryptSchemeAsync();
-
-        if (decryptScheme == null)
-            throw new ArgumentNullException(nameof(decryptScheme));
-
-        var contentEncryptionHandler = await Handlers.GetContentEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
+        var contentEncryptionHandler = await Handlers.GetContentEncryptionHandlerAsync(encryption, cancellationToken);
         if (contentEncryptionHandler == null)
             throw new ArgumentNullException(nameof(contentEncryptionHandler));
 
-        var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(decryptScheme.Name, cancellationToken);
-
+        var keyEncryptionHandler = await Handlers.GetKeyEncryptionHandlerAsync(encryption, cancellationToken);
         if (keyEncryptionHandler == null)
         {
             var key = new JsonWebKey

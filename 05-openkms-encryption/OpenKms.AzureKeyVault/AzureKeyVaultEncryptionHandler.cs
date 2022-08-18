@@ -44,6 +44,11 @@ public class AzureKeyVaultEncryptionHandler<TKeyNameProvider> :
         return decryptResult.Plaintext;
     }
 
+    public override bool CanDecrypt(JsonWebKey key) =>
+        key.KeyId != null &&
+        key.KeyId.StartsWith(_keyClient.VaultUri.ToString(), StringComparison.OrdinalIgnoreCase) &&
+        Options.EncryptionAlgorithm == key.Algorithm;
+
     private async Task<KeyVaultKey> GetOrCreateKey(string keyName, CancellationToken cancellationToken = default)
     {
         KeyVaultKey key;
