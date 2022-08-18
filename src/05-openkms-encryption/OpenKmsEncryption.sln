@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerPortal", "CustomerPortal\CustomerPortal.csproj", "{9D79BFC1-B60E-47C8-AD68-893EC7C06F57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{53890255-9CDE-41CF-8372-7CD6568E76DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankProcessor", "BankProcessor\BankProcessor.csproj", "{54DFF806-49F5-4C2C-9DE5-7FB6E89E69EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenKms.AzureKeyVault", "OpenKms.AzureKeyVault\OpenKms.AzureKeyVault.csproj", "{311B80CA-076F-4A32-8CFD-32422D515434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption\Encryption.csproj", "{E3413219-FB4E-4018-9EEC-16B75E96EC18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenKms.System.Security.Cryptography", "OpenKms.System.Security.Cryptography\OpenKms.System.Security.Cryptography.csproj", "{1BF3FDDE-72AD-4A20-BE81-1BB726620939}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D79BFC1-B60E-47C8-AD68-893EC7C06F57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D79BFC1-B60E-47C8-AD68-893EC7C06F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D79BFC1-B60E-47C8-AD68-893EC7C06F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D79BFC1-B60E-47C8-AD68-893EC7C06F57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53890255-9CDE-41CF-8372-7CD6568E76DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53890255-9CDE-41CF-8372-7CD6568E76DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53890255-9CDE-41CF-8372-7CD6568E76DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53890255-9CDE-41CF-8372-7CD6568E76DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DFF806-49F5-4C2C-9DE5-7FB6E89E69EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DFF806-49F5-4C2C-9DE5-7FB6E89E69EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DFF806-49F5-4C2C-9DE5-7FB6E89E69EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DFF806-49F5-4C2C-9DE5-7FB6E89E69EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F29F0B-5E03-47FC-A5AB-B462D6FDFC23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F29F0B-5E03-47FC-A5AB-B462D6FDFC23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F29F0B-5E03-47FC-A5AB-B462D6FDFC23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F29F0B-5E03-47FC-A5AB-B462D6FDFC23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{311B80CA-076F-4A32-8CFD-32422D515434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{311B80CA-076F-4A32-8CFD-32422D515434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{311B80CA-076F-4A32-8CFD-32422D515434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{311B80CA-076F-4A32-8CFD-32422D515434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3413219-FB4E-4018-9EEC-16B75E96EC18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF3FDDE-72AD-4A20-BE81-1BB726620939}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
