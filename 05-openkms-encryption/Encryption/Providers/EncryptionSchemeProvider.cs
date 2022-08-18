@@ -1,4 +1,3 @@
-using Encryption.Models;
 using Encryption.Options;
 using Microsoft.Extensions.Options;
 
