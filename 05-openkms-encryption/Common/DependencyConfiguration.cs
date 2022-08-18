@@ -40,7 +40,7 @@ public static class DependencyConfiguration
             .AddScheme<AesEncryptionOptions, AesEncryptionHandler, AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler<GuidKeyNameProvider>>(EncryptionSchemes.BankAccountNumber, options =>
             {
                 options.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
-            }, (options, sp) =>
+            }, options =>
             {
                 options.KeySize = 4096;
                 options.KeyType = KeyType.RSA;
@@ -50,7 +50,7 @@ public static class DependencyConfiguration
             .AddScheme<AesEncryptionOptions, AesEncryptionHandler, AzureKeyVaultEncryptionOptions, AzureKeyVaultEncryptionHandler<GuidKeyNameProvider>>(EncryptionSchemes.BankRoutingNumber, options =>
             {
                 options.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
-            }, (options, sp) =>
+            }, options =>
             {
                 options.KeySize = 2048;
                 options.KeyType = KeyType.RSA;

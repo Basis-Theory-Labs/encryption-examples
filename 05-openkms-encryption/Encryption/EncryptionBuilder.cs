@@ -13,7 +13,7 @@ public class EncryptionBuilder
     /// </summary>
     protected virtual IServiceCollection Services { get; }
 
-    private EncryptionBuilder AddSchemeHelper<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(string encryptionScheme, Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions, IServiceProvider>? configureKeyEncryptionOptions)
+    private EncryptionBuilder AddSchemeHelper<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(string encryptionScheme, Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions>? configureKeyEncryptionOptions)
         where TContentEncryptionOptions : EncryptionHandlerOptions, new()
         where TContentEncryptionHandler : class, IEncryptionHandler
         where TKeyEncryptionOptions : EncryptionHandlerOptions, new()
@@ -61,7 +61,7 @@ public class EncryptionBuilder
     /// <param name="configureKeyEncryptionOptions">Used to configure the key encryption scheme options.</param>
     /// <returns>The builder.</returns>
     public virtual EncryptionBuilder AddScheme<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(string encryptionScheme,
-        Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions, IServiceProvider>? configureKeyEncryptionOptions)
+        Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions>? configureKeyEncryptionOptions)
         where TContentEncryptionOptions : EncryptionHandlerOptions, new()
         where TContentEncryptionHandler : EncryptionHandler<TContentEncryptionOptions>
         where TKeyEncryptionOptions : EncryptionHandlerOptions, new()
