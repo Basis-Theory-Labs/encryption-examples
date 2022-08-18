@@ -25,17 +25,11 @@ public class EncryptionOptions
         public void AddScheme(string name, Action<EncryptionSchemeBuilder> configureBuilder)
         {
             if (name == null)
-            {
                 throw new ArgumentNullException(nameof(name));
-            }
             if (configureBuilder == null)
-            {
                 throw new ArgumentNullException(nameof(configureBuilder));
-            }
             if (SchemeMap.ContainsKey(name))
-            {
                 throw new InvalidOperationException("Scheme already exists: " + name);
-            }
 
             var builder = new EncryptionSchemeBuilder(name);
             configureBuilder(builder);
