@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Encryption.Models;
 
 /// <summary>
@@ -22,7 +24,7 @@ public class EncryptionOptions
         /// </summary>
         /// <param name="name">The name of the scheme being added.</param>
         /// <param name="configureBuilder">Configures the scheme.</param>
-        public void AddScheme(string name, Action<EncryptionSchemeBuilder> configureBuilder)
+        public void AddScheme(string name, IServiceCollection services, Action<EncryptionSchemeBuilder> configureBuilder)
         {
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
@@ -31,7 +33,7 @@ public class EncryptionOptions
             if (SchemeMap.ContainsKey(name))
                 throw new InvalidOperationException("Scheme already exists: " + name);
 
-            var builder = new EncryptionSchemeBuilder(name);
+            var builder = new EncryptionSchemeBuilder(name, services);
             configureBuilder(builder);
             _schemes.Add(builder);
             SchemeMap[name] = builder;
@@ -43,8 +45,8 @@ public class EncryptionOptions
         /// <typeparam name="TContentEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for content encryption.</typeparam>
         /// <param name="name">The name of the scheme being added.</param>
         /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<TContentEncryptionHandler>(string name) where TContentEncryptionHandler : IEncryptionHandler
-            => AddScheme(name, b =>
+        public void AddScheme<TContentEncryptionHandler>(string name, IServiceCollection services) where TContentEncryptionHandler : IEncryptionHandler
+            => AddScheme(name, services, b =>
             {
                 b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
             });
@@ -56,10 +58,10 @@ public class EncryptionOptions
         /// <typeparam name="TKeyEncryptionHandler">The <see cref="IEncryptionHandler"/> responsible for key encryption.</typeparam>
         /// <param name="name">The name of the scheme being added.</param>
         /// <param name="displayName">The display name for the scheme.</param>
-        public void AddScheme<TContentEncryptionHandler, TKeyEncryptionHandler>(string name)
+        public void AddScheme<TContentEncryptionHandler, TKeyEncryptionHandler>(string name, IServiceCollection services)
             where TContentEncryptionHandler : IEncryptionHandler
             where TKeyEncryptionHandler : IEncryptionHandler
-            => AddScheme(name, b =>
+            => AddScheme(name, services, b =>
             {
                 b.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
                 b.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);

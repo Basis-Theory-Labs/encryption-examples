@@ -53,6 +53,18 @@ public class EncryptionSchemeBuilder
         return this;
     }
 
+    public EncryptionSchemeBuilder AddContentEncryption<THandlerOptions, TEncryptionHandler, TDep1, TDep2>(Action<THandlerOptions, TDep1, TDep2> configureOptions)
+        where THandlerOptions : EncryptionHandlerOptions, new()
+        where TEncryptionHandler : class, IEncryptionHandler
+        where TDep1 : class
+        where TDep2 : class
+    {
+        ContentEncryptionHandlerType = typeof(TEncryptionHandler);
+        AddHandlerCore<THandlerOptions, TEncryptionHandler, TDep1, TDep2>(configureOptions);
+
+        return this;
+    }
+
     public EncryptionSchemeBuilder AddKeyEncryption<THandlerOptions, TEncryptionHandler>(Action<THandlerOptions> configureOptions)
         where THandlerOptions : EncryptionHandlerOptions, new()
         where TEncryptionHandler : class, IEncryptionHandler

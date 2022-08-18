@@ -11,7 +11,7 @@ public class EncryptionBuilder
     /// <summary>
     /// The services being configured.
     /// </summary>
-    public virtual IServiceCollection Services { get; }
+    protected virtual IServiceCollection Services { get; }
 
     private EncryptionBuilder AddSchemeHelper<TContentEncryptionOptions, TContentEncryptionHandler, TKeyEncryptionOptions, TKeyEncryptionHandler>(string encryptionScheme, Action<TContentEncryptionOptions>? configureContentEncryptionOptions, Action<TKeyEncryptionOptions, IServiceProvider>? configureKeyEncryptionOptions)
         where TContentEncryptionOptions : EncryptionHandlerOptions, new()
@@ -21,7 +21,7 @@ public class EncryptionBuilder
     {
         Services.Configure<EncryptionOptions>(o =>
         {
-            o.AddScheme(encryptionScheme, scheme => {
+            o.AddScheme(encryptionScheme, Services, scheme => {
                 scheme.ContentEncryptionHandlerType = typeof(TContentEncryptionHandler);
                 scheme.KeyEncryptionHandlerType = typeof(TKeyEncryptionHandler);
             });
@@ -72,7 +72,7 @@ public class EncryptionBuilder
     {
         Services.Configure<EncryptionOptions>(o =>
         {
-            o.AddScheme(schemeName, configureBuilder);
+            o.AddScheme(schemeName, Services, configureBuilder);
         });
 
         return this;

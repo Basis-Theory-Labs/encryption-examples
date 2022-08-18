@@ -73,7 +73,7 @@ public static class DependencyConfiguration
                 });
             }).AddScheme("extension functions for builders to build other builders faster", builder =>
             {
-                builder.AddAesContentEncryption((handlerOptions) =>
+                builder.AddAesContentEncryption(handlerOptions =>
                 {
                     handlerOptions.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
                     handlerOptions.KeySize = 256;
