@@ -15,7 +15,7 @@ public class JoseHeader
     /// </summary>
     [JsonPropertyName("alg")]
     [JsonConverter(typeof(NullableEncryptionAlgorithmJsonConverter))]
-    public EncryptionAlgorithm? Algorithm { get; set; }
+    public EncryptionAlgorithm? KeyEncryptionAlgorithm { get; set; }
 
     /// <summary>
     /// The "enc" (encryption algorithm) Header Parameter identifies the
@@ -27,7 +27,7 @@ public class JoseHeader
     /// </summary>
     [JsonPropertyName("enc")]
     [JsonConverter(typeof(EncryptionAlgorithmJsonConverter))]
-    public EncryptionAlgorithm EncryptionAlgorithm { get; set; }
+    public EncryptionAlgorithm ContentEncryptionAlgorithm { get; set; }
 
     [JsonPropertyName("zip")]
     // TODO Json Converter

@@ -61,8 +61,8 @@ public class EncryptionService : IEncryptionService
             ProtectedHeader = new JoseHeader
             {
                 KeyId = encryptKeyResult?.Key?.KeyId ?? encryptContentResult.Key?.KeyId,
-                EncryptionAlgorithm = encryptContentResult.Algorithm,
-                Algorithm = encryptKeyResult?.Algorithm,
+                ContentEncryptionAlgorithm = encryptContentResult.Algorithm,
+                KeyEncryptionAlgorithm = encryptKeyResult?.Algorithm,
             },
             EncryptedKey = encryptKeyResult?.Ciphertext != null ? Convert.ToBase64String(encryptKeyResult.Ciphertext) : null,
             Ciphertext = Convert.ToBase64String(encryptContentResult.Ciphertext),
@@ -92,7 +92,7 @@ public class EncryptionService : IEncryptionService
         {
             var key = new JsonWebKey
             {
-                Algorithm = encryption.ProtectedHeader!.EncryptionAlgorithm,
+                Algorithm = encryption.ProtectedHeader!.ContentEncryptionAlgorithm,
                 KeyId = encryption.ProtectedHeader.KeyId,
                 KeyType = KeyType.OCT
             };
@@ -103,7 +103,7 @@ public class EncryptionService : IEncryptionService
 
         var keyEncryptionKey = new JsonWebKey
         {
-            Algorithm = encryption.ProtectedHeader!.Algorithm,
+            Algorithm = encryption.ProtectedHeader!.KeyEncryptionAlgorithm,
             KeyId = encryption.ProtectedHeader.KeyId,
             KeyType = KeyType.OCT
         };
@@ -113,7 +113,7 @@ public class EncryptionService : IEncryptionService
 
         var cek = new JsonWebKey
         {
-            Algorithm = encryption.ProtectedHeader.EncryptionAlgorithm,
+            Algorithm = encryption.ProtectedHeader.ContentEncryptionAlgorithm,
             KeyType = KeyType.OCT,
             K = cekBytes
         };
