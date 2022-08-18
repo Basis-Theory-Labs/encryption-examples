@@ -36,6 +36,8 @@ public interface IEncryptionHandler
 
     Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, byte[]? iv = null,
         CancellationToken cancellationToken = default);
+
+    bool CanDecrypt(JsonWebKey key);
 }
 
 /// <summary>
@@ -58,6 +60,8 @@ public abstract class EncryptionHandler<TOptions> : IEncryptionHandler where TOp
 
     public abstract Task<byte[]> DecryptAsync(JsonWebKey key, byte[] ciphertext, byte[]? iv = null,
         CancellationToken cancellationToken = default);
+
+    public abstract bool CanDecrypt(JsonWebKey key);
 
     /// <summary>
     /// Gets the <see cref="IOptionsMonitor{TOptions}"/> to detect changes to options.

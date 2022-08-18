@@ -1,3 +1,5 @@
+using Encryption.Models;
+using Encryption.Structs;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Encryption;
@@ -28,6 +30,27 @@ public class EncryptionHandlerProvider : IEncryptionHandlerProvider
         await handler!.InitializeAsync(encryptionScheme);
 
         return handler;
+    }
+
+    public async Task<IEncryptionHandler> GetContentEncryptionHandlerAsync(JsonWebEncryption jwe, CancellationToken cancellationToken = default)
+    {
+        var key = new JsonWebKey
+        {
+            Algorithm = jwe.ProtectedHeader!.EncryptionAlgorithm,
+            KeyId = jwe.ProtectedHeader.KeyId,
+            KeyType = KeyType.OCT
+        };
+
+        var schemes = await _schemeProvider.GetSchemesAsync();
+        foreach (var scheme in schemes)
+        {
+            var handler = _serviceProvider.GetRequiredService(scheme!.ContentEncryptionHandlerType) as IEncryptionHandler;
+            await handler!.InitializeAsync(scheme);
+
+            if (handler.CanDecrypt(key)) return handler;
+        }
+
+        throw new NotImplementedException();
     }
 
     public async Task<IEncryptionHandler?> GetKeyEncryptionHandlerAsync(string scheme, CancellationToken cancellationToken = default)

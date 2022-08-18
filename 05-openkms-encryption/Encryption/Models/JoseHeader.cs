@@ -62,6 +62,4 @@ public class JoseHeader
 
     [JsonPropertyName("crit")]
     public IList<string>? CriticalHeaderParameters { get; set; }
-
-
 }
