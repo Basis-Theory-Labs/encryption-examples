@@ -1,125 +1,83 @@
-# Basis Theory .NET SDK
+# Encryption Examples
 
-[![NuGet](https://img.shields.io/nuget/v/basistheory.net.svg)](https://www.nuget.org/packages/BasisTheory.net/)
-[![Verify](https://github.com/Basis-Theory/basistheory-dotnet/actions/workflows/verify.yml/badge.svg)](https://github.com/Basis-Theory/basistheory-dotnet/actions/workflows/verify.yml)
+[![Verify](https://github.com/Basis-Theory-Labs/encryption-examples/actions/workflows/verify.yml/badge.svg)](https://github.com/Basis-Theory-Labs/encryption-examples/actions/workflows/verify.yml)
 
-The [Basis Theory](https://basistheory.com/) .NET SDK for .NET Core 2.1+, .NET Standard 2.1+, and .NET Framework 4.6.1+.
+These examples were developed to show a progressively more complex encryption implementation to fully implement the [NIST Key Management Lifecycle](https://csrc.nist.gov/CSRC/media/Events/Key-Management-Workshop-2001/documents/lifecycle-slides.pdf).
 
-## Installation
+The final example demonistrates a middleware approach to implementing multiple KMS and encryption schemes to be able to dynamically encrypt and decrypt data with minimal code.
 
-Using the [.NET Core command-line interface (CLI) tools](https://docs.microsoft.com/en-us/dotnet/core/tools/):
-
-```sh
-dotnet add package BasisTheory.net
-```
-
-Using the [NuGet Command Line Interface (CLI)](https://docs.microsoft.com/en-us/nuget/tools/nuget-exe-cli-reference):
-
-```sh
-nuget install BasisTheory.net
-```
-
-Using the [Package Manager Console](https://docs.microsoft.com/en-us/nuget/tools/package-manager-console):
-
-```powershell
-Install-Package BasisTheory.net
-```
-
-## Documentation
-
-For a complete list of endpoints and examples, please refer to our [API docs](https://docs.basistheory.com/api-reference/?csharp#introduction)
-
-## Usage
-
-### Per-request configuration
-
-All of the service methods accept an optional `RequestOptions` object. This is
-used if you want to set a [correlation ID](https://docs.basistheory.com/api-reference/?csharp#request-correlation) or if you want to set a per-request [`BT-API-KEY`](https://docs.basistheory.com/api-reference/?csharp#authentication)
-
-```csharp
-var requestOptions = new RequestOptions();
-requestOptions.ApiKey = "API KEY";
-requestOptions.CorrelationId = Guid.NewGuid().ToString();
-```
-
-### Using a custom `HttpClient`
-
-Each client can be configured to use a custom `HttpClient`:
-
-```csharp
-var httpClient = new HttpClient();
-var client = new TokenClient(apiKey, httpClient: httpClient);
-```
-
-### Setting a custom API Url
-
-Each client can set a custom API Url, such as calling a deployed instance of the Token Proxy.
-
-```csharp
-var client = new TokenClient(apiKey, apiBaseUrl: "https://token-proxy.somedomain.com");
-```
-
-### AspNetCore Setup
-
-See complete documentation in the [BasisTheory.net.AspNetCore project](https://github.com/Basis-Theory/basistheory-dotnet/tree/master/src/BasisTheory.net.AspNetCore)
-
-## Encryption and Key Management
-
-Encryption and Key Management is provided to enable you to manage your own data encryption and key storage with your KMS provider of choice.
-
-### Key Management
-
-```csharp
-var rsaProviderKeyFactory = new RSAKeyVaultProviderKeyFactory();
-
-var providerKeyService = new ProviderKeyService(new CachingService(), 
-  new List<IProviderKeyFactory> { 
-    rsaProviderKeyFactory 
-  });
-
-// Retrieves or creates a key by name with a registered IProviderKeyFactory for the provided provider and algorithm
-var providerEncryptionKey = providerKeyService.GetOrCreateKeyAsync("encryption-key", "AZURE", "RSA");
-
-providerEncryptionKey = providerKeyService.GetKeyByKeyIdAsync(providerEncryptionKey.KeyId);
-```
-
-### Encrypt and Decrypt
-
-```csharp
-// Encryption Factory which has a provider and algorithm implementation for the ProviderEncryptionKey
-var rsaEncryptionFactory = new RSAKeyVaultEncryptionFactory();
-var encryptionService = new EncryptionService(new List<IEncryptionFactory> { 
-  rsaEncryptionFactory 
-});
-
-// Provider Encryption Key which was generated from the ProviderKeyService
-var providerEncryptionKey = new ProviderEncryptionKey {
-  KeyId = Guid.NewGuid().ToString(),
-  ProviderKeyId = "https://custom-kms.vault.azure.net/keys/encryption-key/809b10a3cedb83e83bbaeb5e8c762fab",
-  Algorithm = "RSA",
-  Provider = "AZURE"
-};
-
-// Encrypt string to get back a wrapped EncryptedData with a reference to the ProvderEncryptionKey
-var encryptedData = encryptionService.Encrypt("My Super Secret", providerEncryptionKey);
-
-// Use Encrypted Data and Provider Encryption Key to decrypt the the value and get back the original plaintext
-var plaintext = encryptionService.Decrypt(encryptedData, providerEncryptionKey);
-```
-
-## Development
-
-The provided scripts with the SDK will check for all dependencies, start docker, build the solution, and run all tests.
-
+## Using the Examples
 ### Dependencies
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://www.docker.com/products/docker-desktop)
-- [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
+- [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)
 
-### Build the SDK and run Tests
+### Build the Examples
+
+The provided script will check for all dependencies and build the solution.
 
 Run the following command from the root of the project:
 
 ```sh
 make verify
 ```
+
+## Example 1 - No Encryption
+
+This example demonstrates a banking application that does not implement any data encryption of bank account details.
+
+To run the example, run the following command:
+
+```sh
+make example-01
+```
+
+In your browser, navigate to [https://localhost:7034/banks](https://localhost:7034/banks)
+
+## Example 2 - Basic Encryption
+
+This example demonstrates a banking application that has implemented basic AES encryption with a static encryption key.
+
+To run the example, run the following command:
+
+```sh
+make example-02
+```
+
+In your browser, navigate to [https://localhost:7034/banks](https://localhost:7034/banks)
+
+## Example 3 - Shared Encryption
+
+This example demonstrates a banking application that has multiple applications that need access to the same encryption key. In this example we have implemented a KMS to house and provide secure access to the key.
+
+To run the example, run the following command:
+
+```sh
+make example-03
+```
+
+In your browser, navigate to [http://localhost:5990/banks](http://localhost:5990/banks)
+
+## Example 4 - Key Rotation
+
+This example demonstrates a banking application that has to implement key rotation requirements. This shows how to set expiration date on the key so we automatically generate a new key when the existing key expires. This example is limited to payload size since we are just using RSA encryption key from the KMS.
+
+To run the example, run the following command:
+
+```sh
+make example-04
+```
+
+In your browser, navigate to [http://localhost:5890/banks](http://localhost:5890/banks)
+
+## Example 5 - Open KMS
+
+This example demonstrates a banking application that wants to simplify their encryption and KMS provider options. We implement the [Basis Theory](https://basistheory.com/) Open KMS SDK to be able to define schemes which sets encryption algorithm, handler, and key options to provide a generic and extensible abstraction away from any encryption pattern and KMS provider.
+
+To run the example, run the following command:
+
+```sh
+make example-05
+```
+
+In your browser, navigate to [http://localhost:5790/banks](http://localhost:5790/banks)
