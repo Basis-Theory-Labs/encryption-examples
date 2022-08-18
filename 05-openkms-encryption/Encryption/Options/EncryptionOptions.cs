@@ -1,6 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
+using Encryption.Builders;
 
-namespace Encryption.Models;
+namespace Encryption.Options;
 
 /// <summary>
 /// Options to configure Encryption

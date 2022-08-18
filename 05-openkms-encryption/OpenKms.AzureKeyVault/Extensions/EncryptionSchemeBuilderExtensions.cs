@@ -1,5 +1,6 @@
 using System.Runtime.Serialization;
 using Encryption;
+using Encryption.Builders;
 
 namespace OpenKms.AzureKeyVault.Extensions;
 

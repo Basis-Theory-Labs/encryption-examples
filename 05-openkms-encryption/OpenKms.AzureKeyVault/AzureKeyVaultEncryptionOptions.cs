@@ -1,5 +1,6 @@
 
 using Encryption;
+using Encryption.Options;
 using Encryption.Structs;
 
 namespace OpenKms.AzureKeyVault;

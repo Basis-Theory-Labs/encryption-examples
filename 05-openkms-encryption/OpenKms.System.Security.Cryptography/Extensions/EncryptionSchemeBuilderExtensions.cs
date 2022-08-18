@@ -1,4 +1,5 @@
 using Encryption;
+using Encryption.Builders;
 
 namespace OpenKms.System.Security.Cryptography.Extensions;
 

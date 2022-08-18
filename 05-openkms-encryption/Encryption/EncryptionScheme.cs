@@ -1,4 +1,4 @@
-namespace Encryption.Models;
+namespace Encryption;
 
 public class EncryptionScheme
 {

@@ -1,4 +1,7 @@
+using Encryption.Builders;
 using Encryption.Models;
+using Encryption.Options;
+using Encryption.Providers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

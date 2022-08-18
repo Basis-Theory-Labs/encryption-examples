@@ -1,7 +1,7 @@
 using Encryption.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Encryption;
+namespace Encryption.Providers;
 
 public interface IEncryptionHandlerProvider
 {

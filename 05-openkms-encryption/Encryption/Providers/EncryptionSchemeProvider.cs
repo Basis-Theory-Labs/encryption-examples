@@ -1,7 +1,8 @@
 using Encryption.Models;
+using Encryption.Options;
 using Microsoft.Extensions.Options;
 
-namespace Encryption;
+namespace Encryption.Providers;
 
 public interface IEncryptionSchemeProvider
 {

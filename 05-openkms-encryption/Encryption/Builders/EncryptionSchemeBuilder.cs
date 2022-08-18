@@ -1,8 +1,9 @@
 using Encryption.Models;
+using Encryption.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Encryption;
+namespace Encryption.Builders;
 
 public class EncryptionSchemeBuilder
 {

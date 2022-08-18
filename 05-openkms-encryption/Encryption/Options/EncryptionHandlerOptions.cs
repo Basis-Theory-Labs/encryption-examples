@@ -1,7 +1,7 @@
 using Encryption.Exceptions;
 using Encryption.Structs;
 
-namespace Encryption;
+namespace Encryption.Options;
 
 public abstract class EncryptionHandlerOptions
 {
