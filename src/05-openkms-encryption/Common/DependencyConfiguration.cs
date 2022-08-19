@@ -1,7 +1,7 @@
 using Azure.Core;
 using Common.Constants;
 using Common.Data;
-using Common.Encryption;
+using Common.Helpers.Azure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using OpenKMS.Azure.KeyVault;

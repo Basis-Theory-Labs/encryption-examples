@@ -1,6 +1,6 @@
 using Azure.Core;
 
-namespace Common.Encryption;
+namespace Common.Helpers.Azure;
 
 public class LocalTokenCredential : TokenCredential
 {
