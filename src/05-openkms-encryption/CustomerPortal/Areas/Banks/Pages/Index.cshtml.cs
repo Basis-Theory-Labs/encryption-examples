@@ -1,10 +1,10 @@
 using System.Text;
 using Common.Data;
 using CustomerPortal.Areas.Banks.Models;
-using Encryption;
-using Encryption.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using OpenKMS.Abstractions;
+using OpenKMS.Models;
 
 namespace CustomerPortal.Areas.Banks.Pages;
 

@@ -2,13 +2,13 @@ using Azure.Core;
 using Common.Constants;
 using Common.Data;
 using Common.Encryption;
-using Encryption;
-using Encryption.Extensions.DependencyInjection;
-using Encryption.Structs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
-using OpenKms.AzureKeyVault;
-using OpenKms.AzureKeyVault.Extensions;
+using OpenKMS.Azure.KeyVault;
+using OpenKMS.Azure.KeyVault.Extensions;
+using OpenKMS.Extensions.DependencyInjection;
+using OpenKMS.Providers;
+using OpenKMS.Structs;
 using OpenKms.System.Security.Cryptography;
 using OpenKms.System.Security.Cryptography.Extensions;
 

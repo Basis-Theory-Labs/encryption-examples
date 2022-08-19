@@ -2,9 +2,10 @@ using Common.Constants;
 using Common.Data;
 using Common.Data.Entities;
 using CustomerPortal.Areas.Banks.Models;
-using Encryption;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OpenKMS.Abstractions;
+using OpenKMS.Extensions;
 
 namespace CustomerPortal.Areas.Banks.Pages;
 

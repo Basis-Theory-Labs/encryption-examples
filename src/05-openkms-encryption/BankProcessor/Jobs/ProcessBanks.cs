@@ -1,6 +1,6 @@
 using Common.Data;
 using Common.Data.Entities;
-using Encryption;
+using OpenKMS.Abstractions;
 
 namespace BankProcessor.Jobs;
 

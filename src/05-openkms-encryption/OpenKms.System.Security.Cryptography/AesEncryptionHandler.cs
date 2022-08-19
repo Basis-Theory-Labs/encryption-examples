@@ -1,8 +1,9 @@
 using System.Security.Cryptography;
-using Encryption;
-using Encryption.Models;
-using Encryption.Structs;
 using Microsoft.Extensions.Options;
+using OpenKMS;
+using OpenKMS.Abstractions;
+using OpenKMS.Models;
+using OpenKMS.Structs;
 
 namespace OpenKms.System.Security.Cryptography;
 

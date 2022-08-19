@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Encryption\Encryption.csproj" />
+      <PackageReference Include="OpenKMS" Version="1.0.0" />
     </ItemGroup>
 
 </Project>
