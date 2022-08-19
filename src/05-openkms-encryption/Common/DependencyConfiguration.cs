@@ -4,6 +4,7 @@ using Common.Data;
 using Common.Helpers;
 using Common.Helpers.Azure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Azure;
 using OpenKMS.Aes;
 using OpenKMS.Aes.Extensions;
@@ -71,10 +72,10 @@ public static class DependencyConfiguration
                 });
 
                 options.AddKeyEncryption<AzureKeyVaultEncryptionOptions,
-                    AzureKeyVaultEncryptionHandler, GuidKeyNameProvider>((handlerOptions, keyNameProvider) =>
+                    AzureKeyVaultEncryptionHandler, IKeyNameProvider>((handlerOptions, keyNameProvider) =>
                 {
                     handlerOptions.KeyName = keyNameProvider.GetKeyName();
-                    handlerOptions.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
+                    handlerOptions.EncryptionAlgorithm = EncryptionAlgorithm.RSA_OAEP;
                     handlerOptions.KeySize = 4096;
                 });
             })
@@ -89,7 +90,7 @@ public static class DependencyConfiguration
                 builder.AddKeyVaultKeyEncryption(handlerOptions =>
                 {
                     handlerOptions.KeyName = configuration.GetValue<string>("Encryption:KeyName");
-                    handlerOptions.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
+                    handlerOptions.EncryptionAlgorithm = EncryptionAlgorithm.RSA_OAEP;
                     handlerOptions.KeySize = 4096;
                 });
             });
