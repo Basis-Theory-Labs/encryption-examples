@@ -1,16 +1,16 @@
 using Azure.Core;
 using Common.Constants;
 using Common.Data;
+using Common.Helpers;
 using Common.Helpers.Azure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
+using OpenKMS.Aes;
+using OpenKMS.Aes.Extensions;
 using OpenKMS.Azure.KeyVault;
 using OpenKMS.Azure.KeyVault.Extensions;
 using OpenKMS.Extensions.DependencyInjection;
-using OpenKMS.Providers;
 using OpenKMS.Structs;
-using OpenKms.System.Security.Cryptography;
-using OpenKms.System.Security.Cryptography.Extensions;
 
 namespace Common;
 
@@ -32,13 +32,13 @@ public static class DependencyConfiguration
         });
         services.AddHttpContextAccessor();
 
-        services.AddSingleton<GuidKeyNameProvider>();
+        services.AddSingleton<IKeyNameProvider, GuidKeyNameProvider>();
         services.AddEncryption(o =>
             {
                 o.DefaultScheme = "default";
             })
             .AddScheme<AesEncryptionOptions, AesEncryptionHandler, AzureKeyVaultEncryptionOptions,
-                AzureKeyVaultEncryptionHandler<GuidKeyNameProvider>>(EncryptionSchemes.BankAccountNumber, options =>
+                AzureKeyVaultEncryptionHandler>(EncryptionSchemes.BankAccountNumber, options =>
                 {
                     options.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
                 },
@@ -51,7 +51,7 @@ public static class DependencyConfiguration
                 }
             )
             .AddScheme<AesEncryptionOptions, AesEncryptionHandler, AzureKeyVaultEncryptionOptions,
-                AzureKeyVaultEncryptionHandler<GuidKeyNameProvider>>(EncryptionSchemes.BankRoutingNumber, options =>
+                AzureKeyVaultEncryptionHandler>(EncryptionSchemes.BankRoutingNumber, options =>
                 {
                     options.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
                 },
@@ -71,9 +71,9 @@ public static class DependencyConfiguration
                 });
 
                 options.AddKeyEncryption<AzureKeyVaultEncryptionOptions,
-                    AzureKeyVaultEncryptionHandler<GuidKeyNameProvider>>(handlerOptions =>
+                    AzureKeyVaultEncryptionHandler, GuidKeyNameProvider>((handlerOptions, keyNameProvider) =>
                 {
-                    handlerOptions.KeyName = configuration.GetValue<string>("Encryption:KeyName");
+                    handlerOptions.KeyName = keyNameProvider.GetKeyName();
                     handlerOptions.EncryptionAlgorithm = EncryptionAlgorithm.A256CBC_HS512;
                     handlerOptions.KeySize = 4096;
                 });
