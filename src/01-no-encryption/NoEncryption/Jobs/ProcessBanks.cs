@@ -14,7 +14,11 @@ public class ProcessBanks
         var banks = _dbContext.Banks.Where(x => x.Status == ProcessStatus.PENDING);
 
         foreach (var bank in banks)
+        {
+            if (bank.RoutingNumber != "110000000") continue;
+
             bank.Status = ProcessStatus.PROCESSED;
+        }   
 
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
